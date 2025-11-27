@@ -1,0 +1,176 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_CaseLayout.cshtml";
+}
+
+<html>
+<head>
+    <style>
+        .border-box {
+            position: relative;
+            border: 3px solid #6bbce7;
+            Padding: 20px;
+            height: 430px;
+        }
+
+        .top-panel {
+            background-color: #6bbce7; /* #82CAFA  #55AAFF */
+            padding: 10px;
+            text-align: center;
+            color: white;
+            font-size: 20px;
+        }
+    </style>
+    <script type="text/javascript">
+        var item = '';
+        $(document).ready(function () {
+            item += '<tr><td colspan="7" style="text-align:center">No records found.</td></tr>';
+            $('#Bindgridpatient').html('').append(item);
+        });
+
+        function PatientReport() {
+
+            var Fromdate = $("#from_date").val().trim();
+            var Todate = $("#to_date").val().trim();
+
+            if (Fromdate == "") {
+                not2("Please enter the From date.")
+                $('#from_date').focus();
+                $('body,html').animate({ scrollTop: 0 }, 0);
+                return false;
+            }
+
+            if (Todate == "") {
+                not2("Please enter the To date.")
+                $('#to_date').focus();
+                $('body,html').animate({ scrollTop: 0 }, 0);
+                return false;
+            }
+
+            var url = '@Url.Action("PatientReportGrid", "PatientReport")';
+            debugger;
+            var data1 = {
+                "Fromdate": Fromdate,
+                "Todate": Todate
+            }
+            $.ajax({
+                'async': false,
+                'type': "POST",
+                'global': false,
+                'dataType': 'json',
+                'url': url,
+                'data': data1,
+                'success': function (data) {
+                    data = JSON.parse(data);
+                    var item = '';
+                    var Sno = 0;
+                   
+                    if (data.Table.length == 0) {
+
+                        // $('#DrTaskID').val(data);
+                        item += '<tr><td colspan="7" style="text-align:center">No records found.</td></tr>';
+                    }
+                    for (var i = 0; i < data.Table.length; i++) {
+                        Sno = Sno + 1;
+
+                        item += '<tr><td title="' + data.Table[i].Row_Num + '">' + data.Table[i].Row_Num +
+                            '</td><td title="' + data.Table[i].Patient_RegId + '">' + data.Table[i].Patient_RegId +
+                            '</td><td title="' + data.Table[i].Pat_name + '">' + data.Table[i].Pat_name +
+                            '</td><td title="' + data.Table[i].Pat_blood + '">' + data.Table[i].Pat_blood +
+                            '</td><td title="' + data.Table[i].Pat_disease + '">' + data.Table[i].Pat_disease +
+                            '</td><td title="' + data.Table[i].Pat_doctor + '">' + data.Table[i].Pat_doctor +
+                            '</td><td title="' + data.Table[i].Pat_admitteddate + '">' + data.Table[i].Pat_admitteddate +
+                            '</td><td title="' + data.Table[i].Discharge_Date + '">' + data.Table[i].Discharge_Date +
+                            '</td>'
+                     
+                    }
+                    item += '</tr>';
+
+
+
+                    $('#Bindgridpatient').html('').append(item);
+                }
+            });
+        }
+
+        
+    </script>
+</head>
+<body>
+    <div id="AddForm">
+        <div class="top-panel">
+            <span>Patient Report</span>
+        </div>
+        <div class="row" style="margin-top:15px;margin-left:75px">
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="control-label" style="color:black; font-weight:bold">
+                        From Date
+                    </label>
+
+                    <input type="date" placeholder="" id="from_date" autocomplete="off" style="width:150px">
+
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="control-label" style="color:black; font-weight:bold">
+                        To Date
+                    </label>
+                    <input type="date" placeholder="" id="to_date" autocomplete="off" style="width:150px">
+                    
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <input type="button" id="buttontxt" value="Search" class="btn" style="background-color: #6bbce7; color: White;" onclick="PatientReport()" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="gridpage">
+        <h3 id="oo1" style="text-align: center; color: #6bbce7; margin-top: 35px"><b>Patient Report</b></h3>
+       
+        <div class="col-md-12">
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-12">
+                <div class="panel panel-primary filterable" style="border-color: #6bbce7;color: black" id="FocusTable">
+                    <div class="panel-heading" style="background: #6bbce7; border-color: #6bbce7; ">
+                        <h3 class="panel-title"><b>Patient Report</b></h3>
+
+
+                    </div>
+                    <table class="table" id="ComtxtpractiestypeAtt">
+                        <thead>
+                            <tr class="filters">
+                                <th>#</th>
+                                <th class="table-sort">Patient ID</th>
+                                <th class="table-sort">Patient Name</th>
+                                <th class="table-sort">Blood Group</th>
+                                <th class="table-sort">Disease</th>
+                                <th class="table-sort">Handle Doctor</th>
+                                <th class="table-sort">Admitted Date</th>
+                                <th class="table-sort">Discharge Date</th>
+
+                            </tr>
+                        </thead>
+                        <tbody id="Bindgridpatient"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-3">
+            </div>
+        </div>
+    </div>
+    @*<div style="margin-left:70%;display:block">
+            <a style="cursor: pointer; color: #278BCE; font-weight: bold; font-size: 16px" onclick="location.href='@Url.Action("Index", "Login")'"><i class="fa fa-key"></i>Log Out</a>
+            <a style="cursor: pointer; color: #278BCE; font-weight: bold; font-size: 16px" onclick="location.href='@Url.Action("Index", "Home")'"><i class="fa fa-key"></i>Dashboard</a>
+        </div>*@
+</body>
+</html>
+

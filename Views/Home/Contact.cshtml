@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = "Contact";
+}
+<main aria-labelledby="title">
+    <h2 id="title">@ViewBag.Title.</h2>
+    <h3>@ViewBag.Message</h3>
+
+    <address>
+        One Microsoft Way<br />
+        Redmond, WA 98052-6399<br />
+        <abbr title="Phone">P:</abbr>
+        425.555.0100
+    </address>
+
+    <address>
+        <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
+        <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
+        
+    </address>
+</main>
+
+<div class="row" style="margin-top:15px">
+    <div class="col-md-1 col-md-offset-5">
+        <div class="form-group">
+            <input type="button" value="SUBMIT" class="btn" style="background-color: #278BCE;color:White" onclick="location.href='@Url.Action("Index", "Home")'" />
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <input type="button" value="CANCEL" class="btn" style="background-color: #278BCE;color:White" onclick="location.href='@Url.Action("Index", "Case")'" />
+        </div>
+    </div>
+</div>

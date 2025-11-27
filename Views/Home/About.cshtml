@@ -1,0 +1,924 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_CaseLayout.cshtml";
+}
+<h3 style="text-align:center;color:#278BCE"> CASE</h3>
+<div class="panel panel-violet">
+    <div class="panel-heading">
+        Case
+    </div>
+    <div class="panel-body pan">
+        <form action="#">
+            <div class="form-body pal">
+
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" "inputName">
+                                Date
+                            </label>
+                            <div class="input-icon right">
+                                <i class="fa fa-calendar"></i>
+                                <input type="text" class="form-control" placeholder="" id="inputName">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" "inputName">
+                                Case ID
+                            </label>
+                            <div class="input-icon right">
+                                <i class="fa fa-pencil-square-o"></i>
+                                <input type="text" class="form-control" placeholder="" id="inputCompany">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" "inputName">
+                                Case Name
+                            </label>
+                            <div class="input-icon right">
+                                <i class="fa fa-pencil-square-o"></i>
+                                <input type="text" class="form-control" placeholder="" id="inputName">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row form-group" style="border-bottom:1px solid;">
+                </div>
+
+                <div class="row" style="text-align:left;font-weight:bold;margin-left:0px;margin-bottom:10px">Patient / Plaintiff Information</div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" "inputName">
+                                First Name
+                            </label>
+                            <div class="input-icon right">
+                                <i class="fa fa-user"></i>
+                                <input type="text" class="form-control" placeholder="" id="inputName">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" "inputName">
+                                Last Name
+                            </label>
+                            <div class="input-icon right">
+                                <i class="fa fa-user"></i>
+                                <input type="text" class="form-control" placeholder="" id="inputName">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" "inputName">
+                                Social Security Number
+                            </label>
+                            <div class="input-icon right">
+                                <i class="fa fa-pencil-square-o"></i>
+                                <input type="text" class="form-control" placeholder="" id="inputName">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" "inputName">
+                                Mobile
+                            </label>
+                            <div class="input-icon right">
+                                <i class="fa fa-mobile"></i>
+                                <input type="text" class="form-control" placeholder="" id="inputName">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" "inputName">
+                                Phone
+                            </label>
+                            <div class="input-icon right">
+                                <i class="fa fa-phone"></i>
+                                <input type="text" class="form-control" placeholder="" id="inputName">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" "inputName">
+                                Email
+                            </label>
+                            <div class="input-icon right">
+                                <i class="fa fa-envelope"></i>
+                                <input type="text" class="form-control" placeholder="" id="inputName">
+                            </div>
+                        </div>
+                    </div>
+
+
+                    @*<div class="col-md-4">
+                                <div class="form-group">
+                                <label class="control-label"  "inputName">
+                                        Blood Group</label>
+                                    <div class="input-icon right">
+                                         <select class="form-control">
+                                        <option>Select</option>
+                                        <option value="0">A+</option>
+                                        <option value="1">A-</option>
+                                        <option value="1">B+</option>
+                                        <option value="1">B-</option>
+                                        <option value="1">AB+</option>
+                                        <option value="1">AB-</option>
+                                        <option value="1">O+</option>
+                                        <option value="1">O-</option>
+
+                                    </select></div>
+                            </div>
+                        </div>*@
+
+                </div>
+
+
+                <div class="row">
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" "inputName">
+                                Gender
+                            </label>
+                            <div class="input-icon right">
+                                <select class="form-control">
+                                    <option>Select</option>
+                                    <option value="0">Male</option>
+                                    <option value="1">Female</option>
+
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" "inputName">
+                                Date Of Birth
+                            </label>
+                            <div class="input-icon right">
+                                <i class="fa fa-pencil-square-o"></i>
+                                <input type="text" class="form-control" placeholder="" id="inputName">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" "inputName">
+                                Blood Group
+                            </label>
+                            <div class="input-icon right">
+                                <select class="form-control">
+                                    <option>Select</option>
+                                    <option value="0">A+</option>
+                                    <option value="1">A-</option>
+                                    <option value="1">B+</option>
+                                    <option value="1">B-</option>
+                                    <option value="1">AB+</option>
+                                    <option value="1">AB-</option>
+                                    <option value="1">O+</option>
+                                    <option value="1">O-</option>
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" "inputName">
+                                Nationality
+                            </label>
+                            <div class="input-icon right">
+                                <i class="fa fa-pencil-square-o"></i>
+                                <input type="text" class="form-control" id="inputName">
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" "inputName">
+                                Marital Status
+                            </label>
+                            <div class="input-icon right">
+                                <select class="form-control">
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" "inputName">
+                                Employeement Status
+                            </label>
+                            <div class="input-icon right">
+                                <select class="form-control">
+                                    <option>Select</option>
+                                    <option value="0">Active Duty Military</option>
+                                    <option value="1">Child </option>
+                                    <option value="1">Disabled</option>
+                                    <option value="1">Employed Full-Time</option>
+                                    <option value="1">Employed Part-Time</option>
+                                    <option value="1">Homemaker</option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" "inputName">
+                                Address
+                            </label>
+                            <textarea class="form-control" style="width:1006px;" rows="3"></textarea>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" "inputName">
+                                City
+                            </label>
+                            <div class="input-icon right">
+                                <i class="fa fa-pencil-square-o"></i>
+                                <input type="text" class="form-control" id="inputName">
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" "inputName">
+                                State
+                            </label>
+                            <div class="input-icon right">
+                                <select class="form-control">
+                                    <option>Select</option>
+                                    <option value="0">Texas</option>
+                                    <option value="1">California</option>
+                                    <option value="1">New York</option>
+                                    <option value="1">Florida</option>
+                                    <option value="1">Alaska</option>
+                                    <option value="1">Georgia</option>
+                                    <option value="1">North Carolina</option>
+                                    <option value="1">New Jersey</option>
+                                    <option value="1">Washington</option>
+                                    <option value="1">Nevada</option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" "inputName">
+                                Zip Code
+                            </label>
+                            <div class="input-icon right">
+                                <i class="fa fa-pencil-square-o"></i>
+                                <input type="text" class="form-control" id="inputName">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="row">
+
+
+
+
+                </div>
+
+
+
+
+                <div class="row form-group" style="border-bottom:1px solid;">
+                </div>
+
+
+                <div class="row" style="text-align:left;font-weight:bold;margin-left:0px;margin-bottom:10px">Accident Information</div>
+
+                <div class="row">
+
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="control-label" "inputName">
+                                Date
+                            </label>
+                            <div class="input-icon right">
+                                <i class="fa fa-calendar"></i>
+                                <input type="text" class="form-control" id="inputName">
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="control-label" "inputName">
+                                Time
+                            </label>
+                            <div class="input-icon right">
+                                <i class="fa fa-calendar"></i>
+                                <input type="text" class="form-control" id="inputName">
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" "inputName">
+                                Accident Location
+                            </label>
+                            <div class="input-icon right">
+                                <i class="fa fa-pencil-square-o"></i>
+                                <input type="text" class="form-control" id="inputName">
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" "inputName">
+                                Injury Type
+                            </label>
+                            <select class="form-control">
+                                <option>Select</option>
+                                <option value="0">Critical</option>
+                                <option value="1">Major</option>
+                                <option value="1">Medium</option>
+                                <option value="1">Minor</option>
+
+                            </select>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" "inputName">
+                                Authority Contact
+                            </label>
+                            <div class="input-icon right">
+                                <i class="fa fa-pencil-square-o"></i>
+                                <input type="text" class="form-control" id="inputName">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" "inputName">
+                                Position
+                            </label>
+                            <div class="input-icon right">
+                                <i class="fa fa-pencil-square-o"></i>
+                                <input type="text" class="form-control" id="inputCompany">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" "inputName">
+                                Report No
+                            </label>
+                            <div class="input-icon right">
+                                <i class="fa fa-pencil-square-o"></i>
+                                <input type="text" class="form-control" id="inputEmail">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" "inputName">
+                                City
+                            </label>
+                            <div class="input-icon right">
+                                <i class="fa fa-pencil-square-o"></i>
+                                <input type="text" class="form-control" id="inputName">
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" "inputName">
+                                State
+                            </label>
+                            <div class="input-icon right">
+                                <select class="form-control">
+                                    <option>Select</option>
+                                    <option value="0">Texas</option>
+                                    <option value="1">California</option>
+                                    <option value="1">New York</option>
+                                    <option value="1">Florida</option>
+                                    <option value="1">Alaska</option>
+                                    <option value="1">Georgia</option>
+                                    <option value="1">North Carolina</option>
+                                    <option value="1">New Jersey</option>
+                                    <option value="1">Washington</option>
+                                    <option value="1">Nevada</option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" "inputName">
+                                Zip Code
+                            </label>
+                            <div class="input-icon right">
+                                <i class="fa fa-pencil-square-o"></i>
+                                <input type="text" class="form-control" id="inputName">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group" style="border-bottom:1px solid;">
+                </div>
+                @* <div class="row">
+                    <div class="col-md-6 form-group" style="text-align:center;font-weight:bold;">Attorney</div>
+                    <div class="col-md-6 form-group" style="text-align:center;font-weight:bold;">Primary Care Physician</div>
+                    </div>*@
+
+                <div class="row" style="text-align:left;font-weight:bold;margin-left:0px;margin-bottom:10px">Attorney</div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" for="inputName">
+                                Name
+                            </label>
+                            <div class="input-icon right">
+                                <select class="form-control">
+                                    <option>Select</option>
+                                    <option value="0">Clifford Chance</option>
+                                    <option value="1">Linklaters</option>
+                                    <option value="1">Jones Day</option>
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" for="inputName">
+                                Firm Name
+                            </label>
+                            <div class="input-icon right">
+                                <i class="fa fa-user"></i>
+                                <input type="text" class="form-control" placeholder="" id="inputName">
+
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" for="inputName">
+                                Practice Type
+                            </label>
+                            <div class="input-icon right">
+                                <select class="form-control">
+                                    <option>Select</option>
+                                    <option value="0">Corporate</option>
+                                    <option value="1">Criminal</option>
+                                    <option value="2">Health</option>
+                                    <option value="3">Real Estate</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" "inputName">
+                                Mobile
+                            </label>
+                            <div class="input-icon right">
+                                <i class="fa fa-mobile"></i>
+                                <input type="text" class="form-control" id="inputName">
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" "inputName">
+                                Work Phone
+                            </label>
+                            <div class="input-icon right">
+                                <i class="fa fa-phone"></i>
+                                <input type="text" class="form-control" id="inputName">
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" "inputName">
+                                Email
+                            </label>
+                            <div class="input-icon right">
+                                <i class="fa fa-envelope"></i>
+                                <input type="text" class="form-control" id="inputName">
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" "inputName">
+                                Address
+                            </label>
+                            <textarea class="form-control" style="width:1006px;" rows="3"></textarea>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" "inputName">
+                                State
+                            </label>
+                            <div class="input-icon right">
+                                <select class="form-control">
+                                    <option>Select</option>
+                                    <option value="0">Texas</option>
+                                    <option value="1">California</option>
+                                    <option value="1">New York</option>
+                                    <option value="1">Florida</option>
+                                    <option value="1">Alaska</option>
+                                    <option value="1">Georgia</option>
+                                    <option value="1">North Carolina</option>
+                                    <option value="1">New Jersey</option>
+                                    <option value="1">Washington</option>
+                                    <option value="1">Nevada</option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" for="inputName">
+                                City
+                            </label>
+                            <div class="input-icon right">
+                                <i class="fa fa-user"></i>
+                                <input type="text" class="form-control" placeholder="" id="inputName">
+
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" for="inputName">
+                                Zip code
+                            </label>
+                            <div class="input-icon right">
+                                <i class="fa fa-pencil-square-o"></i>
+                                <input type="text" class="form-control" placeholder="" id="inputName">
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <div class="row form-group" style="border-bottom:1px solid;">
+                </div>
+                <div class="row" style="text-align:left;font-weight:bold;margin-left:0px;margin-bottom:10px">Primary Care Doctor </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" for="inputName">
+                                Name
+                            </label>
+                            <div class="input-icon right">
+                                <select class="form-control">
+                                    <option>Select</option>
+                                    <option value="0">Sidley Austin</option>
+                                    <option value="1">DLA Piper</option>
+                                    <option value="1">Hogan Lovells</option>
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" for="inputName">
+                                Firm Name
+                            </label>
+                            <div class="input-icon right">
+                                <i class="fa fa-user"></i>
+                                <input type="text" class="form-control" placeholder="" id="inputName">
+
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" for="inputName">
+                                Practice Type
+                            </label>
+                            <div class="input-icon right">
+                                <select class="form-control">
+                                    <option>Select</option>
+                                    <option value="0">Cardiology</option>
+                                    <option value="1">Orthopaedics</option>
+                                    <option value="2">Radiology</option>
+                                    <option value="3">Neurology</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" "inputName">
+                                Mobile
+                            </label>
+                            <div class="input-icon right">
+                                <i class="fa fa-mobile"></i>
+                                <input type="text" class="form-control" id="inputName">
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" "inputName">
+                                Work Phone
+                            </label>
+                            <div class="input-icon right">
+                                <i class="fa fa-phone"></i>
+                                <input type="text" class="form-control" id="inputName">
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" "inputName">
+                                Email
+                            </label>
+                            <div class="input-icon right">
+                                <i class="fa fa-envelope"></i>
+                                <input type="text" class="form-control" id="inputName">
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" "inputName">
+                                Address
+                            </label>
+                            <textarea class="form-control" style="width:1006px;" rows="3"></textarea>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" "inputName">
+                                State
+                            </label>
+                            <div class="input-icon right">
+                                <select class="form-control">
+                                    <option>Select</option>
+                                    <option value="0">Texas</option>
+                                    <option value="1">California</option>
+                                    <option value="1">New York</option>
+                                    <option value="1">Florida</option>
+                                    <option value="1">Alaska</option>
+                                    <option value="1">Georgia</option>
+                                    <option value="1">North Carolina</option>
+                                    <option value="1">New Jersey</option>
+                                    <option value="1">Washington</option>
+                                    <option value="1">Nevada</option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" for="inputName">
+                                City
+                            </label>
+                            <div class="input-icon right">
+                                <i class="fa fa-pencil-square-o"></i>
+                                <input type="text" class="form-control" placeholder="" id="inputName">
+
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" for="inputName">
+                                Zip code
+                            </label>
+                            <div class="input-icon right">
+                                <i class="fa fa-pencil-square-o"></i>
+                                <input type="text" class="form-control" placeholder="" id="inputName">
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+
+
+                <div class="row" style="margin-top:15px">
+                    <div class="col-md-1 col-md-offset-5">
+                        <div class="form-group">
+                            <input type="button" value="SUBMIT" class="btn" style="background-color: #278BCE;color:White" onclick="location.href='@Url.Action("Index", "Case")'" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <input type="button" value="CANCEL" class="btn" style="background-color: #278BCE;color:White" onclick="location.href='@Url.Action("Index", "Case")'" />
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div class="modal fade" id="myModalDoc" role="dialog">
+    <div class="modal-dialog" style="width: 540px !important;">
+        <div class="panel-default" style="background: rgba(255,255,255,1.0 ) !important">
+            <div class="panel panel-yellow" style="border-color: #0099ff">
+                <div class="panel-heading" style="background: #0099ff">
+                    Doctor
+                </div>
+                <div class="panel-body pan">
+                    <form class="form-horizontal" action="#">
+                        <div class="">
+                            @* <div class="row" style="width:600px;margin:0 auto;">
+                                <div class="col-md-12 form-group" style="text-align:center;font-weight:bold;">Doctor</div>
+
+                                </div>*@
+                            <div class="row" style="width:690px;margin:0 auto;">
+                                <div class="col-md-1 col-md-offset-1">
+                                    <div class="">
+                                        <label class="control-label" for="inputName">
+                                            <b>S.No</b>
+                                        </label>
+                                        <div class="input-icon right">
+                                            <label>1</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-md-offset-1">
+                                    <div class="">
+                                        <label class="control-label" for="inputName">
+                                            <b>Name</b>
+                                        </label>
+                                        <div class="input-icon right">
+                                            <label>Mark Willburger</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="">
+                                        <label class="control-label" for="inputName">
+                                            <b>Practice Type</b>
+                                        </label>
+                                        <div class="input-icon right">
+                                            <label for="inputName">
+                                                Cardiology
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" style="width:690px;margin:0 auto;margin-bottom:20px;">
+                                <div class="col-md-1 col-md-offset-1">
+                                    <div class="">
+
+                                        <div class="input-icon right">
+                                            <label>2</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-md-offset-1">
+                                    <div class="">
+
+                                        <div class="input-icon right">
+                                            <label for="inputName">
+                                                Mary Joy
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="">
+
+                                        <div class="input-icon right">
+                                            <label for="inputName">
+                                                Dentists
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,267 @@
+﻿@{
+    ViewBag.Title = "Login Page";
+}
+<html>
+<head>
+    <style type="text/css">
+        .homeimg {
+            background-image: url("/Images/welcome.jpg");
+            background-size: cover;
+            height: 250px;
+        }
+        label{
+            font-size:18px;
+        }
+        body{
+            overflow-x:hidden;
+        }
+        /*.center-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            background: #ccc;
+            border-radius: 10px;
+        }*/
+
+
+    </style>
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {
+            //GridStudent();
+        });
+
+        function CancelClick() {
+            document.getElementById("Login_Username").value = "";
+            document.getElementById("Login_Password").value = "";
+        }
+
+        function LoginClick() {
+        debugger;
+            var UserName = $('#Login_Username').val().trim();
+            var PassWord = $('#Login_Password').val().trim();
+       /* var Remchk = $('#RemChk').is(":checked") ? 1 : 0;*/
+            if (UserName == "" && PassWord == "") {
+
+                not2("Please enter your username and password.")
+                $('#UserName').focus();
+                $('body,html').animate({ scrollTop: 0 }, 0);
+                return false;
+            }
+        if (UserName == "") {
+
+            not2("Please enter your Username.")
+            $('#UserName').focus();
+            $('body,html').animate({ scrollTop: 0 }, 0);
+            return false;
+        }
+
+        if (PassWord == "") {
+
+            not2("Please enter your password.")
+            $('#PassWord').focus();
+            $('body,html').animate({ scrollTop: 0 }, 0);
+            return false;
+            }
+           
+            $('#buttontxt').attr("disabled", true);
+        var url = '@Url.Action("UserLogin","Login")';
+        //var url = '../Homepage/Login';(method,contorller)
+
+
+        var data1 = { "Username": UserName, "password": PassWord };
+        $.ajax({
+            'type': "POST",
+            'global': false,
+            'dataType': 'json',
+            'url': url,
+            'data': data1,
+            'success': function (data) {
+                data = JSON.parse(data);
+                if (data.Table[0].Result == "U") {
+                    not2("Please enter the Valid username.")
+                    //alert("Please enter the valid username.");
+                    $('#UserName').focus();
+                    $('body,html').animate({ scrollTop: 0 }, 0);
+                    $('#buttontxt').attr("disabled", false);
+                    return false;
+                } else if (data.Table[0].Result == "P") {
+                    //alert("Please enter the Valid password.");
+                    not2("Please enter the Valid password.")
+                    $('#PassWord').focus();
+                    $('body,html').animate({ scrollTop: 0 }, 0);
+                    $('#buttontxt').attr("disabled", false);
+                    return false;
+                }
+                else if (data.Table[0].Result == "S") {
+                    window.location.href = '@Url.Action("Index", "Home")';  //'../DashLawFirm/Index';
+                }
+                else if (data.Table[0].Result == "N") {
+                    not2("Please enter a valid user ID and password.")
+                    //alert("Please enter a valid username and password.");
+                    $('body,html').animate({ scrollTop: 0 }, 0);
+                    $('#buttontxt').attr("disabled", false);
+                    return false;
+                }
+            }
+        });
+    }
+    </script>
+</head>
+
+
+<body class="homeimg">
+    <div class="row" style="margin-top: 20%;">
+        <div class="row" style="font-weight: bold; margin-left: 70%; margin-bottom: 10px; font-size: 25px; color: black;"><i>Welcome to HMS Login</i></div>
+
+        <div class="row" style="font-weight:lighter;margin-left:70%;">
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label" style="font-weight:bold;color: black;">
+                        User Name
+                    </label>
+                    <div class="input-icon right">
+
+                        <input type="text" class="form-control" placeholder="" id="Login_Username" maxlength="50" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="row" style="font-weight:lighter;margin-left:70%;">
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label" style="font-weight: bold; color: black; ">
+                        Password
+                    </label>
+                    <div class="input-icon right">
+
+                        <input type="password" class="form-control" placeholder="" id="Login_Password" maxlength="50" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="row" style="margin-top: 15px;margin-left:74%">
+            <div class="col-md-1">
+                <div class="form-group">
+                    <input type="button" id="buttontxt" value="LOGIN" class="btn" style="background-color: #6bbce7; font-weight:bold; color: White;" onclick="LoginClick()" />
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <input type="button" value="CLEAR" class="btn" style="background-color: #6bbce7; font-weight: bold; color: White;" onclick="CancelClick()" />
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!--<div class="row col-md-offset-1" style="margin-top:5%">
+        <div class="row" style="font-weight: bold; margin-left: 36%; margin-bottom: 10px; font-size: 25px; color: darkblue;">Online Appointment</i></div>
+
+        <div class="row" style="font-weight:lighter;margin-left:36%;">
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label" style="font-weight:bold">
+                        Name
+                    </label>
+                    <div class="input-icon right">
+
+                        <input type="text" class="form-control" placeholder="" id="name" maxlength="50" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="row" style="font-weight:lighter;margin-left:36%;">
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label" style="font-weight:bold">
+                        Age
+                    </label>
+                    <div class="input-icon right">
+
+                        <input type="password" class="form-control" placeholder="" id="Age" maxlength="50" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="font-weight:lighter;margin-left:36%;">
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label" style="font-weight:bold">
+                        Age
+                    </label>
+                    <div class="input-icon right">
+
+                        <input type="password" class="form-control" placeholder="" id="Gender" maxlength="50" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row" style="font-weight:lighter;margin-left:36%;">
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label" style="font-weight:bold">
+                        Mobile No.
+                    </label>
+                    <div class="input-icon right">
+
+                        <input type="password" class="form-control" placeholder="" id="mobile" maxlength="50" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="font-weight:lighter;margin-left:36%;">
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label" style="font-weight:bold">
+                        Specialist
+                    </label>
+                    <div class="input-icon right">
+
+                        <input type="password" class="form-control" placeholder="" id="Specialist" maxlength="50" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row" style="margin-top: 15px; margin-left: 36%;">
+            <div class="col-md-1 col-md-offset-5">
+                <div class="form-group">
+                    <input type="button" id="buttontxt" value="Submit" class="btn" style="background-color: darkblue; color: White; margin-left:525px;" onclick="LoginClick()" />
+                </div>
+            </div>-->
+            @*<div class="col-md-3">
+                <div class="form-group">
+                    <input type="button" value="CLEAR" class="btn" style="background-color: darkblue; color: White; margin-left: 532px;" onclick="CancelClick()" />
+                </div>
+            </div>*@
+        <!--</div>
+
+    </div>-->
+
+
+</body>
+</html>

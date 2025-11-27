@@ -1,0 +1,241 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        h2 {
+            color: #444;
+            font-family: sans-serif;
+        }
+
+        #wrap {
+            /*width: 750px;
+            margin: 0 auto;
+            min-height: 500px;
+            margin-top: -20px;*/
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            color: #444;
+            background-color: #f4f4f4;
+            cursor: pointer;
+            border: none;
+            margin: 2px;
+        }
+
+            button:hover {
+                background-color: #DDD;
+            }
+
+            button:active {
+                background-color: #777;
+            }
+
+        footer {
+            font-family: sans-serif;
+            font-size: 12px;
+        }
+
+            footer p {
+                color: #aaa;
+            }
+
+                footer p a {
+                    color: yellowgreen;
+                    text-decoration: none;
+                }
+
+        .title {
+            font-size: 57px;
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 0;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #999;
+            margin-top: -10px;
+            margin-bottom: 20px;
+        }
+
+        pre {
+            padding: 10px;
+            background-color: #EEE;
+        }
+
+        .comment {
+            color: #AAA;
+        }
+
+        .string {
+            color: teal;
+        }
+
+        .tag {
+            color: blue;
+        }
+
+        .attr {
+            color: green;
+        }
+
+        .button_download {
+            display: block;
+            font-family: sans-serif;
+            cursor: pointer;
+            width: 60px;
+            padding: 10px 30px 10px 30px;
+            font-weight: bold;
+            font-size: 20px;
+            text-decoration: none;
+            text-align: center;
+            margin: 0 auto;
+            background-color: #444;
+            color: #EEE;
+            transition: all 0.3s;
+            -moz-transition: all 0.3s;
+            -webkit-transition: all 0.3s;
+            -o-transition: all 0.3s;
+            -ms-transition: all 0.3s;
+        }
+
+            .button_download:hover {
+                width: 480px;
+                background-color: yellowgreen;
+                color: #444;
+            }
+
+        .step {
+            color: #AAA;
+        }
+    </style>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+
+    @*<a href="~/NotifiPopup/jquery.txt">~/NotifiPopup/jquery.txt</a>
+        <link href="~/NotifiPopup/notifIt.css" rel="stylesheet" />
+        <script src="~/NotifiPopup/notifIt.js"></script>*@
+
+    <script src="@Url.Content("~/NotifiPopup/notifIt.js")"></script>
+    @*<script src="@Url.Content("~/NotifiPopup/jquery.txt")"></script>*@
+    <link type="text/css" rel="stylesheet" href="@Url.Content("~/NotifiPopup/notifIt.css")">
+
+
+    @*<script src="jQuery%20NotifIt%20Plugin%20Examples_files/jquery.txt"></script>
+        <script type="text/javascript" src="jQuery%20NotifIt%20Plugin%20Examples_files/notifIt.js"></script>
+        <link rel="stylesheet" type="text/css" href="jQuery%20NotifIt%20Plugin%20Examples_files/notifIt.css">*@
+    <meta content="chrome plugin" name="plugin_id">
+</head>
+<body>
+    <div id="wrap">
+
+        @*<div class="jquery-script-ads">
+                <script type="text/javascript" src="jQuery%20NotifIt%20Plugin%20Examples_files/show_ads.txt">
+                </script><ins id="aswift_0_expand" style="display:inline-table;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:728px;background-color:transparent"><ins id="aswift_0_anchor" style="display:block;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:728px;background-color:transparent"><iframe marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;" frameborder="0" height="90" width="728"></iframe></ins></ins>
+            </div>*@
+        @*<button onclick="not1()">NotifIt! 1 (Default position, Success)</button>
+            <button onclick="not2()">NotifIt! 2 (Centered, error)</button>
+            <button onclick="not3()">NotifIt! 3 (Left, Warning)</button>
+            <button onclick="not4()">NotifIt! 4 (Centered, Info, Custom size)</button>
+            <button onclick="not5()">NotifIt! 5 (Centered, error, custom size, click-to-dismiss)</button>
+            <button onclick="not6()">NotifIt! 6 (Centered, warning, custom opacity)</button>*@
+    </div>
+    <script>
+        function not1(msg){
+            notif({
+                msg: '<b></b> ' + msg + '',
+                type: "success",
+                position: "center"
+            });
+        }
+        function not2(msg) {
+            notif({
+                msg: '<b></b> ' + msg + '',
+				type: "error",
+				position: "center"
+			});
+        }
+        function not3(msg) {
+            notif({
+				type: "warning",
+				msg: '<b>Warning:</b> ' + msg + '',
+				position: "left"
+			});
+        }
+        function not4(msg) {
+            notif({
+               // type: "info",
+                type: "success",
+				msg: '<b>Info: </b> ' + msg + '',
+				width: "all",
+				height: 100,
+				position: "center",
+				autohide: false,
+				width: 921,
+				left: 210
+			});
+        }
+        function not5(msg) {
+            notif({
+				type: "error",
+				msg: '<b>Error: </b> ' + msg + '',
+				position: "center",
+				width: 500,
+				height: 60,
+				autohide: false
+			});
+        }
+        function not6(msg) {
+			notif({
+				type: "warning",
+				msg: '' + msg + '',
+				position: "center",
+				opacity: 0.8
+			});
+        }
+        function not7(msg) {
+            notif({
+                type: "error",
+                msg: '<b>Error: </b> ' + msg + '',
+                width: "all",
+                height: 100,
+                position: "center",
+                width: 921,
+                left: 210
+            });
+        }
+        function not8(msg) {
+            notif({
+                type: "error",
+                msg: '<b>Error: </b> ' + msg + '',
+                width: "all",
+                height: 300,
+                position: "center",
+                width: 1080,
+                left: 100
+            });
+        }
+        function not9(msg) {
+            notif({
+                type: "error",
+                msg: '' + msg + '',
+                width: "all",
+                height: 300,
+                position: "center",
+                width: 1080,
+                left: 100,
+                autohide: false,
+                linheight: 0
+            });
+        }
+    </script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,369 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_CaseLayout.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .border-box {
+            position: relative;
+            border: 3px solid #6bbce7;
+            Padding: 20px;
+            height: 200px;
+        }
+
+        .top-panel {
+            background-color: #6bbce7; /* #82CAFA  #55AAFF */
+            padding: 10px;
+            text-align: center;
+            color: white;
+            font-size: 20px;
+        }
+    </style>
+    <script type="text/javascript">
+        var IDD = 1;
+        var IUD = 1;
+        $(document).ready(function () {
+            GridRoom();
+        });
+
+        function hideform() {
+            $('#AddForm').css('display', 'none');
+            $('#gridpage').css('display', 'block');
+        }
+
+    function GetDetail(Room_Id, Action) {
+
+         IDD = 1;
+       $('#AddForm').css('display', 'block');
+        $('#gridpage').css('display', 'none');
+        $('body,html').animate({ scrollTop: 0 }, 0);
+        IUD = Action;
+        cleartext();
+        $("#buttontxt").attr('value', 'SUBMIT');
+        //document.getElementById("book_name").disabled = false;
+        //document.getElementById("book_author").disabled = false;
+
+    }
+
+    function GetDetailRoom(Room_Id, Action)
+    {
+        debugger;
+        IDD = Room_Id;
+        IUD = Action;
+        $('#AddForm').css('display', 'block');
+        $('#gridpage').css('display', 'none');
+
+        $('body,html').animate({ scrollTop: 0 }, 0);
+        if (Action == 1) {
+            // document.getElementById("book_name").disabled = false;
+            //document.getElementById("book_author").disabled = false;
+            //$('#head').html('').html("DOCTOR'S TASK - ADD");
+            $("#buttontxt").attr('value', 'SUBMIT');
+            cleartext();
+            //OnchangStatus();
+        }
+        if (Action == 2) {
+            //   document.getElementById("book_name").disabled = true;
+            //document.getElementById("book_author").disabled = true;
+            //$('#head').html('').html("DOCTOR'S TASK - EDIT");
+            $("#buttontxt").attr('value', 'UPDATE');
+            //disableremove();
+            //OnchangStatus();
+        }
+        if (Action == 3) {
+            //$('#head').html('').html("DOCTOR'S TASK - DELETE");
+            $("#buttontxt").attr('value', 'DELETE');
+           // disablebutton();
+
+        }
+        if (Action != 1) {
+            var url = '@Url.Action("GGetDetailRoom", "Room")';
+            var data1 = { "Room_Id": IDD };
+            $.ajax({
+                'type': "POST",
+                'global': false,
+                'dataType': 'json',
+                'url': url,
+                'data': data1,
+                'success': function (data) {
+                    data = JSON.parse(data);
+                    $("#room_type").val(data.Table[0].Room_type);
+                    $("#room_rate").val(data.Table[0].Room_rate);
+                    $("#total_rooms").val(data.Table[0].Total_rooms);
+
+                    //FromDtChang();
+                }
+            });
+        }
+    }
+
+     function GridRoom() {
+
+        var url = '@Url.Action("RoomBindd", "Room")';
+        debugger;
+        var data1 = {}
+        $.ajax({
+            'async': false,
+            'type': "POST",
+            'global': false,
+            'dataType': 'json',
+            'url': url,
+            'data': data1,
+            'success': function (data) {
+                data = JSON.parse(data);
+                var item = '';
+
+                if (data == "") {
+
+                   // $('#DrTaskID').val(data);
+                    item += '<tr><td colspan="4" style="text-align:center">No records found.</td></tr>';
+                }
+                for (var i = 0; i < data.Table.length; i++) {
+
+
+                    item += '<tr><td title="' + data.Table[i].Row_Num + '">' + data.Table[i].Row_Num +
+                        '</td><td title="' + data.Table[i].Room_type + '">' + data.Table[i].Room_type +
+                        '</td><td title="' + data.Table[i].Room_rate + '">' + data.Table[i].Room_rate +
+                        '</td><td title="' + data.Table[i].Total_rooms + '">' + data.Table[i].Total_rooms +
+                        '</td>';
+                    item += '<td class="awsemfontcolor">';
+                    item += '<i class="fa fa-pencil-square-o" style="font-size: 18px;color:#6bbce7;cursor:pointer;" title="Modify" onclick="GetDetailRoom(' + data.Table[i].Room_Id + ',2)"></i>&nbsp;';
+                    item += '<i class="fa fa-times-circle" style="font-size: 18px;color:#6bbce7;cursor:pointer;" title="Delete" onclick="GetDetailRoom(' + data.Table[i].Room_Id + ',3)" ></i>&nbsp;';
+                    }
+                    item += '</td></tr>';
+
+
+
+                $('#Bindgridroom').html('').append(item);
+            }
+        });
+    }
+
+
+     function cleartext() {
+
+         document.getElementById("room_type").value = "";
+         document.getElementById("room_rate").value = "";
+         document.getElementById("total_rooms").value = "";
+    }
+
+
+   function SaveRoom() {
+    debugger;
+    //var DrTaskID = IDD;
+    //var CaseID = 19;
+       var room_type = $("#room_type").val().trim();
+       var room_rate = $("#room_rate").val().trim();
+       var total_rooms = $("#total_rooms").val().trim();
+   
+    if (IUD == 1 || IUD == 2){
+
+        if (room_type == "") {
+            not2("Please enter the room type.")
+            $('#room_type').focus();
+            $('body,html').animate({ scrollTop: 0 }, 0);
+            return false;
+        }
+        if (room_rate == "") {
+            not2("Please enter the room rate.")
+            $('#room_rate').focus();
+            $('body,html').animate({ scrollTop: 0 }, 0);
+            return false;
+        }
+        if (total_rooms == "") {
+            not2("Please enter the total rooms.")
+            $('#total_rooms').focus();
+            $('body,html').animate({ scrollTop: 0 }, 0);
+            return false;
+        }
+       
+    }
+
+
+    var url = '@Url.Action("RoomIUDD", "Room")';
+    var data1 = {
+        "Room_ID": IDD,
+        "room_type": room_type,
+        "room_rate": room_rate,
+        "total_rooms": total_rooms,
+        "flag": IUD
+    }
+    $.ajax({
+        'type': "POST",
+        'global': false,
+        'dataType': 'json',
+        'url': url,
+        'data': data1,
+        'success': function (data) {
+            data=JSON.parse(data);
+            if (data.Table[0].Result == "S") {
+
+                $('body,html').animate({ scrollTop: 0 }, 0);
+                if (IUD == 1) {
+                    not1("Your data has been added successfully.");
+                    $('#AddForm').css('display', 'none');
+                    $('#gridpage').css('display', 'block');
+                    GridRoom();
+                    cleartext();
+                }
+                if (IUD == 2) {
+                    not1("Your data has been modified successfully.")
+                    $('#AddForm').css('display', 'none');
+                    $('#gridpage').css('display', 'block');
+                    GridRoom();
+                    cleartext();
+                }
+                if (IUD == 3) {
+                    not1("Your data has been deleted successfully.");
+                    $('#AddForm').css('display', 'none');
+                    $('#gridpage').css('display', 'block');
+                    GridRoom();
+                    cleartext();
+                }
+            }
+            else if (data.Table[0].Result == "N")
+            {
+                not2("Room Type already Exists")
+                
+            }
+            else if (data.Table[0].Result == "NO") {
+                not2("Room is already assigned for Patient.")
+
+            }
+
+            //else {
+            //    not2("Already Exists Book and author name.")
+            //    $('#book_name').focus();
+            //}
+            $('body,html').animate({ scrollTop: 0 }, 0);
+
+        }
+    });
+}
+    </script>
+</head>
+<body>
+    <div id="AddForm" style="display:none">
+        <div class="top-panel">
+            <span>Room Details</span>
+        </div>
+        <div class="border-box">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label" style="color:black; font-weight:bold">
+                            Room Type
+                        </label>
+                        <div class="input-icon right">
+                            <i class="fa fa-user"></i>
+                            <input type="text" class="form-control" placeholder="" id="room_type" maxlength="50" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label" style="color:black; font-weight:bold">
+                            Room Rate
+                        </label>
+                        <div class="input-icon right">
+                            <i class="fa fa-user"></i>
+                            <input type="text" class="form-control" placeholder="" id="room_rate" maxlength="5" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label" style="color:black; font-weight:bold">
+                            Total Rooms
+                        </label>
+                        <div class="input-icon right">
+                            <i class="fa fa-user"></i>
+                            <input type="text" class="form-control" placeholder="" id="total_rooms" maxlength="3" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <hr style="border-bottom:1px solid black" />
+            <div class="row" style="margin-top:5px">
+                <div class="col-md-1 col-md-offset-5">
+                    <div class="form-group">
+                        <input type="button" id="buttontxt" value="SUBMIT" class="btn" style="background-color: #6bbce7; color: white; margin-right: 5%" onclick="return SaveRoom()" />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <input type="button" value="CANCEL" class="btn" style="background-color: #6bbce7; color: white; margin-left: 5%" onclick="return hideform()" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="gridpage">
+        <h3 id="oo1" style="text-align: center; color: #6bbce7; margin-top: 35px;font-weight:bold">ROOM MANAGEMENT</h3>
+        <div class="col-md-12" style="margin-top:20px">
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-3">
+                @*<div class="input-icon right">
+                        <i class="fa fa-search"></i>
+                        <input type="text" class="form-control" id="ComSearchTxt" onkeyup="doSearch('ComSearchTxt','ComtxtpractiestypeAtt')" oninput="doSearch('ComSearchTxt','ComtxtpractiestypeAtt')" placeholder="Search" />
+                    </div>*@
+            </div>
+            <div class="col-md-4">
+
+            </div>
+
+            <div class="col-md-1 col-md-offset-2" style="text-align:right">
+                <div onclick="return GetDetail(1, 1)" title="Add" style="cursor: pointer; display: block;height: 34px" id="rowpullrightadd1">
+
+                    <i style="font-size: 25px; color: #6bbce7; padding-top: 8px" class="fa fa-plus-circle"></i>
+                </div>
+            </div>
+
+            <div class="col-md-3"></div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-12">
+                <div class="panel panel-primary filterable" style="border-color: #6bbce7;" id="FocusTable">
+                    <div class="panel-heading" style="background: #6bbce7; border-color: #6bbce7;">
+                        <h3 class="panel-title"><b>Room Details</b></h3>
+
+
+                    </div>
+                    <table class="table" id="ComtxtpractiestypeAtt" style="color:black;">
+                        <thead>
+                            <tr class="filters">
+                                <th>#</th>
+                                <th class="table-sort">Room Type</th>
+                                <th class="table-sort">Room Rate</th>
+                                <th class="table-sort">Total Rooms</th>
+                                <th>Action</th>
+
+                            </tr>
+                        </thead>
+                        <tbody id="Bindgridroom"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-3">
+            </div>
+        </div>
+    </div>
+    @*<div style="margin-left:70%;display:block">
+        <a style="cursor: pointer; color: #6bbce7; font-weight: bold; font-size: 16px" onclick="location.href='@Url.Action("Index", "Login")'"><i class="fa fa-key"></i>Log Out</a>
+        <a style="cursor: pointer; color: #6bbce7; font-weight: bold; font-size: 16px" onclick="location.href='@Url.Action("Index", "Home")'"><i class="fa fa-key"></i>Dashboard</a>
+    </div>*@
+</body>
+</html>
+

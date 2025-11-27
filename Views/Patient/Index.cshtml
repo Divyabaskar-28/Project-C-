@@ -1,0 +1,614 @@
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_CaseLayout.cshtml";
+}
+
+<html>
+<head>
+    <style>
+        .border-box {
+            position: relative;
+            border: 3px solid #6bbce7;
+            Padding: 20px;
+            height: 430px;
+        }
+
+        .top-panel {
+            background-color: #6bbce7; /* #82CAFA  #55AAFF */
+            padding: 10px;
+            text-align: center;
+            color: white;
+            font-size: 20px;
+        }
+    </style>
+    <script type="text/javascript">
+        var IDD = 1;
+        var IUD = 1;
+        $(document).ready(function () {
+            GridPatient();
+            GetalldropdownDetail();
+        });
+
+        function GetalldropdownDetail() {
+
+            var url = '@Url.Action("GetDropallDetails", "Patient")';
+            var data1 = {};
+            $.ajax({
+                'async': false,
+                'type': "POST",
+                'global': false,
+                'dataType': 'json',
+                'url': url,
+                'data': data1,
+                'success': function (data) {
+
+                    Arr = JSON.parse(data);
+                    var item = '';
+                    var Sno = 0;
+
+                    $('#pat_doctor option').remove();
+                    if (Arr.Table.length == 0) {
+                        $("#pat_doctor").append($("<option></option>").val("0").html("No data"));
+                    } else {
+                        $("#pat_doctor").append($("<option></option>").val("Select").html("Select"));
+                        for (var i = 0; i < Arr.Table.length; i++) {
+                            $("#pat_doctor").append($("<option></option>").val(Arr.Table[i].doctor_id).html(Arr.Table[i].doctor_firstname));
+                        }
+                    }
+
+
+                    $('#pat_room option').remove();
+                    if (Arr.Table1.length == 0) {
+                        $("#pat_room").append($("<option></option>").val("0").html("No data"));
+                    } else {
+                        $("#pat_room").append($("<option></option>").val("Select").html("Select"));
+                        for (var i = 0; i < Arr.Table1.length; i++) {
+                            $("#pat_room").append($("<option></option>").val(Arr.Table1[i].Room_id).html(Arr.Table1[i].Room_type));
+                        }
+                    }
+
+
+                }
+            });
+        }
+
+
+        function hideform() {
+            $('#AddForm').css('display', 'none');
+            $('#gridpage').css('display', 'block');
+        }
+
+        function GetDetail(Patient_Id, Action) {
+
+            IDD = 1;
+            $('#AddForm').css('display', 'block');
+            $('#gridpage').css('display', 'none');
+            $('#admitdate').css('display', 'block');
+            $('body,html').animate({ scrollTop: 0 }, 0);
+            IUD = Action;
+            cleartext();
+            $("#buttontxt").attr('value', 'SUBMIT');
+            //document.getElementById("book_name").disabled = false;
+            //document.getElementById("book_author").disabled = false;
+
+        }
+
+
+        function PatientDetailID(Patient_Id, Action) {
+
+            IDD = Patient_Id;
+            IUD = Action;
+            $('#AddForm').css('display', 'block');
+            $('#gridpage').css('display', 'none');
+            $('#admitdate').css('display', 'none');
+            
+
+            $('body,html').animate({ scrollTop: 0 }, 0);
+            if (Action == 1) {
+
+                //$('#head').html('').html("DOCTOR'S TASK - ADD");
+                $("#buttontxt").attr('value', 'SUBMIT');
+                cleartext();
+                //OnchangStatus();
+            }
+            if (Action == 2) {
+                //$('#head').html('').html("DOCTOR'S TASK - EDIT");
+                $("#buttontxt").attr('value', 'UPDATE');
+                //disableremove();
+                //OnchangStatus();
+            }
+            if (Action == 3) {
+                //$('#head').html('').html("DOCTOR'S TASK - DELETE");
+                $("#buttontxt").attr('value', 'DELETE');
+                // disablebutton();
+
+            }
+            if (Action != 1) {
+                var url = '@Url.Action("GetDPatientbyID", "Patient")';
+                var data1 = { "PatientID": IDD };
+                $.ajax({
+                    'type': "POST",
+                    'global': false,
+                    'dataType': 'json',
+                    'url': url,
+                    'data': data1,
+                    'success': function (data) {
+                        data = JSON.parse(data);
+                        $("#pat_name").val(data.Table[0].Pat_name);
+                        $("#pat_gender").val(data.Table[0].Pat_gender);
+                        $("#pat_age").val(data.Table[0].Pat_age);
+                        $("#pat_blood").val(data.Table[0].Pat_blood);
+                        $("#pat_mobile").val(data.Table[0].Pat_mobile);
+                        $("#pat_disease").val(data.Table[0].Pat_disease);
+                        $("#pat_room").val(data.Table[0].Pat_room);
+                        $("#pat_doctor").val(data.Table[0].Pat_doctor);
+                        $("#pat_address").val(data.Table[0].Pat_address);
+
+                    }
+                });
+            }
+        }
+        function cleartext() {
+
+            document.getElementById("pat_name").value = "";
+            
+            document.getElementById("pat_gender").selectedIndex = 0;
+            document.getElementById("pat_age").value = "";
+
+            document.getElementById("pat_blood").selectedIndex = 0;
+
+            document.getElementById("pat_mobile").value = "";
+            document.getElementById("pat_disease").value = "";
+            document.getElementById("pat_room").selectedIndex = 0;
+
+            document.getElementById("pat_doctor").selectedIndex = 0;
+            document.getElementById("pat_admitteddate").value = "";
+            document.getElementById("pat_address").value = "";
+        }
+
+        function GridPatient() {
+
+      var url = '@Url.Action("PatientBindd", "Patient")';
+      debugger;
+      var data1 = {}
+      $.ajax({
+          'async': false,
+          'type': "POST",
+          'global': false,
+          'dataType': 'json',
+          'url': url,
+          'data': data1,
+          'success': function (data) {
+              data = JSON.parse(data);
+              var item = '';
+              var Sno = 0;
+              var singco = "'";
+              if (data == "") {
+
+                 // $('#DrTaskID').val(data);
+                  item += '<tr><td colspan="6" style="text-align:center">No records found.</td></tr>';
+              }
+              for (var i = 0; i < data.Table.length; i++) {
+                  Sno = Sno + 1;
+
+                  item += '<tr><td title="' + data.Table[i].Row_Num + '">' + data.Table[i].Row_Num +
+                      '</td><td title="' + data.Table[i].Patient_RegId + '">' + data.Table[i].Patient_RegId +
+                      '</td><td title="' + data.Table[i].Pat_name + '">' + data.Table[i].Pat_name +
+                      '</td><td title="' + data.Table[i].Pat_mobile + '">' + data.Table[i].Pat_mobile +
+                      '</td><td title="' + data.Table[i].Pat_blood + '">' + data.Table[i].Pat_blood +
+                      '</td><td title="' + data.Table[i].Pat_disease + '">' + data.Table[i].Pat_disease +
+                      '</td><td title="' + data.Table[i].Pat_doctor + '">' + data.Table[i].Pat_doctor +
+                      '</td><td title="' + data.Table[i].Pat_admitteddate + '">' + data.Table[i].Pat_admitteddate +
+                      '</td>'
+                  item += '<td class="awsemfontcolor">';
+                  item += '<i class="fa fa-pencil-square-o" style="font-size: 18px;color:#6bbce7;cursor:pointer;" title="Modify" onclick="PatientDetailID(' + data.Table[i].Patient_Id + ',2)"></i>&nbsp;';
+                  //item += '<i class="fa fa-times-circle" style="font-size: 18px;color:#6bbce7;cursor:pointer;" title="Delete" onclick="GetDetailPatient(' + data.Table[i].Patient_Id + ',3)" ></i>&nbsp;';
+                  }
+                  item += '</tr>';
+
+
+
+              $('#Bindgridpatient').html('').append(item);
+          }
+      });
+  }
+
+   function SavePatient() {
+    debugger;
+       var pat_name = $("#pat_name").val().trim();
+       var pat_gender = $("#pat_gender").val().trim();
+       var pat_age = $("#pat_age").val().trim();
+       var pat_blood = $("#pat_blood").val();
+       var pat_mobile = $("#pat_mobile").val().trim();
+       var pat_disease = $("#pat_disease").val().trim();
+       var pat_room = $("#pat_room").val();
+       var pat_doctor = $("#pat_doctor").val().trim();
+       var pat_admitteddate = $("#pat_admitteddate").val().trim();
+       var pat_address = $("#pat_address").val().trim();
+
+       if (IUD == 1 || IUD == 2) {
+
+           if (pat_name == "") {
+               not2("Please enter the patient name.")
+               $('#pat_name').focus();
+               $('body,html').animate({ scrollTop: 0 }, 0);
+               return false;
+           }
+           if (pat_gender == "Select") {
+               not2("Please enter the patient gender.")
+               $('#pat_gender').focus();
+               $('body,html').animate({ scrollTop: 0 }, 0);
+               return false;
+           }
+           if (pat_age == "") {
+               not2("Please enter the patient age.")
+               $('#pat_age').focus();
+               $('body,html').animate({ scrollTop: 0 }, 0);
+               return false;
+           }
+           if (pat_blood == "Select") {
+               not2("Please enter the patient blood.")
+               $('#pat_blood').focus();
+               $('body,html').animate({ scrollTop: 0 }, 0);
+               return false;
+           }
+           if (pat_mobile == "") {
+               not2("Please enter the patient mobile no.")
+               $('#pat_mobile').focus();
+               $('body,html').animate({ scrollTop: 0 }, 0);
+               return false;
+           }
+           if (pat_disease == "") {
+               not2("Please enter the patient disease.")
+               $('#pat_disease').focus();
+               $('body,html').animate({ scrollTop: 0 }, 0);
+               return false;
+           }
+           if (pat_room == "Select") {
+               not2("Please enter the patient room type.")
+               $('#pat_room').focus();
+               $('body,html').animate({ scrollTop: 0 }, 0);
+               return false;
+           }
+           if (pat_doctor == "Select") {
+               not2("Please enter the patients doctor name")
+               $('#pat_doctor').focus();
+               $('body,html').animate({ scrollTop: 0 }, 0);
+               return false;
+           }
+           if (IUD != 2) {
+               if (pat_admitteddate == "") {
+                   not2("Please enter the patient admitted date.")
+                   $('#pat_admitteddate').focus();
+                   $('body,html').animate({ scrollTop: 0 }, 0);
+                   return false;
+               }
+           }
+        if (pat_address == "") {
+            not2("Please enter the patient address.")
+            $('#pat_address').focus();
+            $('body,html').animate({ scrollTop: 0 }, 0);
+            return false;
+        }
+
+    }
+
+
+    var url = '@Url.Action("SavePatient", "Patient")';
+    var data1 = {
+        "PatientID": IDD,
+        "pat_name": pat_name,
+        "pat_gender": pat_gender,
+        "pat_age": pat_age,
+        "pat_blood": pat_blood,
+        "pat_mobile": pat_mobile,
+        "pat_disease": pat_disease,
+        "pat_room": pat_room,
+        "pat_doctor": pat_doctor,
+        "pat_admitteddate": pat_admitteddate,
+        "pat_address": pat_address,
+        "flag": IUD
+        
+        
+    }
+    $.ajax({
+        'type': "POST",
+        'global': false,
+        'dataType': 'json',
+        'url': url,
+        'data': data1,
+        'success': function (data) {
+            data=JSON.parse(data);
+            if (data.Table[0].Result == "S") {
+
+                $('body,html').animate({ scrollTop: 0 }, 0);
+                if (IUD == 1) {
+                    not1("Your data has been added successfully.");
+                    $('#AddForm').css('display', 'none');
+                    $('#gridpage').css('display', 'block');
+                    GridPatient();
+                    cleartext();
+                }
+                if (IUD == 2) {
+                    not1("Your data has been modified successfully.")
+                    $('#AddForm').css('display', 'none');
+                    $('#gridpage').css('display', 'block');
+                    GridPatient();
+                    cleartext();
+                }
+                if (IUD == 3) {
+                    not1("Your data has been deleted successfully.");
+                    $('#AddForm').css('display', 'none');
+                    $('#gridpage').css('display', 'block');
+                    GridPatient();
+                    cleartext();
+                }
+            }
+            else if (data.Table[0].Result == "N")
+            {
+                not2("This Patient is already exists. ")
+            }
+            //{
+            //    not2("Book issued. Please collect then delete.")
+            //    $('#book_name').focus();
+            //}
+
+            //else {
+            //    not2("Already Exists Book and author name.")
+            //    $('#book_name').focus();
+            //}
+            $('body,html').animate({ scrollTop: 0 }, 0);
+
+        }
+    });
+}
+    </script>
+</head>
+<body>
+    <div id="AddForm" style="display:none">
+        <div class="top-panel">
+            <span>Patient Details</span>
+        </div>
+        <div class="border-box">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label" style="color:black; font-weight:bold">
+                            Patient Name
+                        </label>
+                        <div class="input-icon right">
+                            <i class="fa fa-user"></i>
+                            <input type="text" class="form-control" placeholder="" id="pat_name" maxlength="50" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label" style="color:black; font-weight:bold">
+                            Gender
+                        </label>
+                        <div class="input-icon right">
+                            <select class="form-control" id="pat_gender">
+                                <option value="Select">Select</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label" style="color:black; font-weight:bold">
+                            Age
+                        </label>
+                        <div class="input-icon right">
+                            <i class="fa fa-user"></i>
+                            <input type="text" class="form-control" placeholder="" id="pat_age" maxlength="2" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label" style="color:black; font-weight:bold">
+                            Blood Group
+                        </label>
+                        <div class="input-icon right">
+                            <select class="form-control" id="pat_blood">
+                                <option value="Select">Select</option>
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label" style="color:black; font-weight:bold">
+                            Mobile No
+                        </label>
+                        <div class="input-icon right">
+                            <i class="fa fa-mobile"></i>
+                            <input type="text" class="form-control" placeholder="" id="pat_mobile" maxlength="10" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label" style="color:black; font-weight:bold">
+                            Disease
+                        </label>
+                        <div class="input-icon right">
+                            <i class="fa fa-pencil-square-o"></i>
+                            <input type="text" class="form-control" id="pat_disease" maxlength="100" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label" style="color:black; font-weight:bold">
+                            Room Type
+                        </label>
+                        <div class="input-icon right">
+                            <div class="input-icon right">
+                                <i class="fa fa-pencil-square-o"></i>
+                                <select class="form-control" id="pat_room">
+                                    <!--<option value="0">Select</option>
+                        <option value="General Ward">General Ward</option>
+                        <option value="Semi-Private Room">Semi-Private Room</option>
+                        <option value="Private Room">Private Room</option>
+                        <option value="Deluxe Room">Deluxe Room</option>
+                        <option value="ICU">ICU</option>-->
+                                    @*<option value="High Dependency Unit(HDU)">High Dependency Unit(HDU)</option>*@
+                                    <!--<option value="Neonatal Intensive Care Unit(NICU)">Neonatal Intensive Care Unit(NICU)</option>
+                        <option value="Maternity Room">Maternity Room</option>
+                        <option value="Isolated Room">Isolated Room</option>
+                        <option value="Emergency Room"> Emergency Room</option>
+                        <option value="Psychiatric Room">Psychiatric Room</option>-->
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label" style="color:black; font-weight:bold">
+                            Handle Doctor
+                        </label>
+                        <div class="input-icon right">
+                            <div class="input-icon right">
+                                <i class="fa fa-pencil-square-o"></i>
+                                <select class="form-control" id="pat_doctor">
+                                    @*<option value="0">Select</option>
+                            <option value="Dr.P.Anandaraj">Dr.P.Anandaraj</option>
+                            <option value="Dr.M.Robin Richard">Dr.M.Robin Richard</option>
+                            <option value="Dr.Srikanth">Dr.Srikanth</option>*@
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label" style="color:black; font-weight:bold">
+                            Address
+                        </label>
+                        <textarea class="form-control" rows="2" id="pat_address" maxlength="150" autocomplete="off"></textarea>
+                    </div>
+                </div>
+             
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-4" id="admitdate">
+                    <div class="form-group">
+                        <label class="control-label" style="color:black; font-weight:bold">
+                            Admitted Date
+                        </label>
+                        <div class="input-icon right">
+                            <i class="fa fa-user"></i>
+                            <input type="date" class="form-control" placeholder="" id="pat_admitteddate" maxlength="50" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr style="border-bottom:1px solid black" />
+            <div class="row" style="margin-top:5px">
+                <div class="col-md-1 col-md-offset-5">
+                    <div class="form-group">
+                        <input type="button" id="buttontxt" value="SUBMIT" class="btn" style="background-color: #6bbce7; color: white; margin-right: 5%" onclick="return SavePatient()" />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <input type="button" value="CANCEL" class="btn" style="background-color: #6bbce7; color: white; margin-left: 5%" onclick="return hideform()" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="gridpage">
+        <h3 id="oo1" style="text-align: center; color: #6bbce7; margin-top: 35px"><b>PATIENT MANAGEMENT</b></h3>
+        <div class="col-md-12" style="margin-top:20px">
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-3">
+                @*<div class="input-icon right">
+                        <i class="fa fa-search"></i>
+                        <input type="text" class="form-control" id="ComSearchTxt" onkeyup="doSearch('ComSearchTxt','ComtxtpractiestypeAtt')" oninput="doSearch('ComSearchTxt','ComtxtpractiestypeAtt')" placeholder="Search" />
+                    </div>*@
+            </div>
+            <div class="col-md-4">
+
+            </div>
+
+            <div class="col-md-1 col-md-offset-2" style="text-align:right">
+                <div onclick="return GetDetail(1,1)" title="Add" style="cursor: pointer; display: block;height: 34px" id="rowpullrightadd1">
+
+                    <i style="font-size: 25px; color: #6bbce7; padding-top: 8px " class="fa fa-plus-circle"></i>
+                </div>
+            </div>
+
+            <div class="col-md-3"></div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-12">
+                <div class="panel panel-primary filterable" style="border-color: #6bbce7;color: black" id="FocusTable">
+                    <div class="panel-heading" style="background: #6bbce7; border-color: #6bbce7; ">
+                        <h3 class="panel-title"><b>Patient Details</b></h3>
+
+
+                    </div>
+                    <table class="table" id="ComtxtpractiestypeAtt">
+                        <thead>
+                            <tr class="filters">
+                                <th>#</th>
+                                <th class="table-sort">Patient ID</th>
+                                <th class="table-sort">Patient Name</th>
+                                <th class="table-sort">Patient Mobile</th>
+                                <th class="table-sort">Blood Group</th>
+                                <th class="table-sort">Disease</th>
+                                <th class="table-sort">Handle Doctor</th>
+                                <th class="table-sort">Admitted Date</th>
+                                <th class="table-sort">Action</th>
+
+                            </tr>
+                        </thead>
+                        <tbody id="Bindgridpatient"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-3">
+            </div>
+        </div>
+    </div>
+    @*<div style="margin-left:70%;display:block">
+            <a style="cursor: pointer; color: #278BCE; font-weight: bold; font-size: 16px" onclick="location.href='@Url.Action("Index", "Login")'"><i class="fa fa-key"></i>Log Out</a>
+            <a style="cursor: pointer; color: #278BCE; font-weight: bold; font-size: 16px" onclick="location.href='@Url.Action("Index", "Home")'"><i class="fa fa-key"></i>Dashboard</a>
+        </div>*@
+</body>
+</html>
+

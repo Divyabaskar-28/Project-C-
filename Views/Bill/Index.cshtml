@@ -1,0 +1,437 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_CaseLayout.cshtml";
+}
+
+
+<script type="text/javascript">
+    var Doctorvalue, Medicalvalue, Roomvalue , Totalvalue;
+    $(document).ready(function () {
+        $('#AddForm').css('display', 'none');
+        $('#gridpage').css('display', 'block');
+        $("#Doctor_Bill").val(0);
+        $("#Medical_Bill").val(0);
+        $("#Room_Bill").val(0);
+        $("#Total_Bill").val(0);
+    });
+    function GetDetailPatientbymobile() {
+        var Mobile = $("#Search_mobile").val();
+
+
+        if (Mobile == "") {
+            not2("Please enter the mobile no.")
+            $('#Mobile').focus();
+            $('body,html').animate({ scrollTop: 0 }, 0);
+            return false;
+        }
+        var url = '@Url.Action("GetPatientMobile", "Bill")';
+        var data1 = { "MMobile": Mobile };
+        $.ajax({
+            'type': "POST",
+            'global': false,
+            'dataType': 'json',
+            'url': url,
+            'data': data1,
+            'success': function (data) {
+                data = JSON.parse(data);
+                $("#pat_name").html('').text(data.Table[0].Patient_name);
+                $("#pat_gender").html('').text(data.Table[0].Patient_gender);
+                $("#pat_age").html('').text(data.Table[0].Patient_age);
+                $("#pat_blood").html('').text(data.Table[0].Patient_blood);
+                $("#pat_mobile").html('').text(data.Table[0].Patient_mobile);
+                $("#pat_disease").html('').text(data.Table[0].Patient_disease);
+                $("#pat_room").html('').text(data.Table[0].Patient_room);
+                $("#pat_doctor").html('').text(data.Table[0].Patient_doctor);
+                $("#pat_admitteddate").html('').text(data.Table[0].Admitted_date);
+
+                $("#Lbl_Doctorbill").html('').text(data.Table[0].Bill_DoctorFees);
+                $("#Lbl_Medicalbill").html('').text(data.Table[0].Bill_MedicalFees);
+                $("#Lbl_Roombill").html('').text(data.Table[0].Bill_RoomFees);
+                $("#Lbl_Totalbill").html('').text(data.Table[0].Bill_TotalFees);
+                $("#Lbl_Remainingbill").html('').text(data.Table[0].Bill_BalanceFees);
+
+                if (data.Table[0].Bill_DoctorFees != 0 || data.Table[0].Bill_MedicalFees != 0 || data.Table[0].Bill_RoomFees != 0) {
+                    document.getElementById("Doctor_Bill").disabled = true;
+                    document.getElementById("Medical_Bill").disabled = true;
+                    document.getElementById("Room_Bill").disabled = true;
+                    $("#Generatetxt").attr("disabled", "disabled");
+                }
+                else {
+                    document.getElementById("Doctor_Bill").disabled = false;
+                    document.getElementById("Medical_Bill").disabled = false;
+                    document.getElementById("Room_Bill").disabled = false;
+                    $("#Generatetxt").removeAttr("disabled");
+
+                }
+            
+                //FromDtChang();
+                $('#AddForm').css('display', 'block');
+            
+                $('body,html').animate({ scrollTop: 0 }, 0);
+            }
+        });
+    }
+
+    function isNumberKey(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    }
+
+    function hideform() {
+        $('#AddForm').css('display', 'none');
+       
+    
+    }
+
+
+    function calculateSum() {
+
+        var sum = 0;
+        //iterate through each textboxes and add the values
+        $(".txt").each(function () {
+
+            //add only if the value is number
+            if (!isNaN(this.value) && this.value.length != 0) {
+                sum += parseInt(this.value);
+            }
+
+        });
+        //.toFixed() method will roundoff the final sum to 2 decimal places
+        $("#Total_Bill").val(sum);
+    }
+
+    function SaveBill() {
+
+        var Doctorvalue = parseInt($("#Doctor_Bill").val());
+        var Medicalvalue = parseInt($("#Medical_Bill").val());
+        var Roomvalue = parseInt($("#Room_Bill").val());
+        var Totalvalue = parseInt($("#Total_Bill").val());
+
+        if (Doctorvalue == 0) {
+            not2("Please enter the doctor fees.")
+            $('#txt_amount').focus();
+            $('body,html').animate({ scrollTop: 0 }, 0);
+            return false;
+        }
+        if (Medicalvalue == 0) {
+            not2("Please select the medical fees.")
+            $('#txt_type').focus();
+            $('body,html').animate({ scrollTop: 0 }, 0);
+            return false;
+        }
+        if (Roomvalue == 0) {
+            not2("Please select the room fees.")
+            $('#txt_type').focus();
+            $('body,html').animate({ scrollTop: 0 }, 0);
+            return false;
+        }
+
+        var url = '@Url.Action("Bill_IUD", "Bill")';
+        var data1 = {
+            "Doctor_value": Doctorvalue,
+            "Medical_value": Medicalvalue,
+            "Room_value": Roomvalue,
+            "Total_value": Totalvalue
+        }
+        $.ajax({
+            'type': "POST",
+            'global': false,
+            'dataType': 'json',
+            'url': url,
+            'data': data1,
+            'success': function (data) {
+                data = JSON.parse(data);
+                if (data.Table[0].Result == "S") {
+                    $('body,html').animate({ scrollTop: 0 }, 0);
+
+                    not1("Your data has been added successfully.");
+                    $('#AddForm').css('display', 'none');
+                    $('#gridpage').css('display', 'block');
+                }
+                else {
+                    not1("Your data has been updated successfully.")
+                   
+                    
+                }
+
+                $('body,html').animate({ scrollTop: 0 }, 0);
+
+            }
+        });
+    }
+
+</script>
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .border-box {
+            position: relative;
+            border: 3px solid #6bbce7;
+            Padding: 20px;
+        }
+
+        .top-panel {
+            background-color: #6bbce7; /* #82CAFA  #55AAFF */
+            padding: 10px;
+            text-align: center;
+            color: white;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-panel">
+        <img src="~/Images/Doctoremoj.jpg" width="30" height="30" style="border-radius:50%" />
+        <span id="head"> Bill Management </span>
+    </div>
+
+    <div class="row" style="margin-top:20px">
+        <div class="col-md-5 col-md-offset-4">
+            <div class="form-group">
+                <label class="control-label" style="color:black; font-weight:bold">
+                    Patient ID
+                </label>
+                <input type="text" placeholder="" id="Search_mobile" maxlength="10" style="height:34px">
+                <input type="button" id="buttontxt" value="Search" class="btn" style="background-color: #6bbce7; color: white; margin-right: 5%" onclick="return GetDetailPatientbymobile()" />
+
+            </div>
+        </div>
+    </div>
+    <div id="AddForm" style="display:none">
+        <div class="top-panel">
+            <span>Patient Details</span>
+        </div>
+        <div class="border-box">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label" style="color: #6bbce7; font-weight: bold">
+                            Patient Name
+                        </label>
+                        <div class="input-icon right">
+
+                            <label class="control-label" id="pat_name" style="color:black; font-weight:bold"></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label" style="color: #6bbce7; font-weight: bold">
+                            Gender
+                        </label>
+                        <div class="input-icon right">
+                            <label class="control-label" id="pat_gender" maxlength="50" style="color:black; font-weight:bold"></label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label" style="color: #6bbce7; font-weight: bold">
+                            Age
+                        </label>
+                        <div class="input-icon right">
+                            <label class="control-label" id="pat_age" maxlength="50" style="color:black; font-weight:bold"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label" style="color: #6bbce7; font-weight: bold">
+                            Blood Group
+                        </label>
+                        <div class="input-icon right">
+                            <label class="control-label" id="pat_blood" maxlength="50" style="color:black; font-weight:bold"></label>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label" style="color: #6bbce7; font-weight: bold">
+                            Mobile No
+                        </label>
+                        <div class="input-icon right">
+                            <label class="control-label" id="pat_mobile" maxlength="50" style="color:black; font-weight:bold"></label>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label" style="color: #6bbce7; font-weight: bold">
+                            Disease
+                        </label>
+                        <div class="input-icon right">
+                            <label class="control-label" id="pat_disease" maxlength="50" style="color:black; font-weight:bold"></label>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label" style="color: #6bbce7; font-weight: bold">
+                            Room Type
+                        </label>
+                        <div class="input-icon right">
+                            <label class="control-label" id="pat_room" maxlength="50" style="color:black; font-weight:bold"></label>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label" style="color: #6bbce7; font-weight: bold">
+                            Handle Doctor
+                        </label>
+                        <div class="input-icon right">
+                            <div class="input-icon right">
+                                <label class="control-label" id="pat_doctor" maxlength="50" style="color:black; font-weight:bold"></label>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label" style="color: #6bbce7; font-weight: bold">
+                            Admitted Date
+                        </label>
+                        <div class="input-icon right">
+                            <label class="control-label" id="pat_admitteddate" maxlength="50" style="color:black; font-weight:bold"></label>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row" id="bill-details" style="border: 2px solid #6bbce7;padding-top:10px">
+                <div class="col-md-3 col-md-offset-1">
+
+                    <div class="form-group">
+                        <label class="control-label" style="color:black; font-weight:bold">
+                            Doctor Bill ==>
+                        </label>
+                        <label class="control-label" id="Lbl_Doctorbill" maxlength="50" style="color:Red; font-weight:bold"></label>
+
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label" style="color:black; font-weight:bold">
+                            Medical Bill ==>
+                        </label>
+                        <label class="control-label" id="Lbl_Medicalbill" maxlength="50" style="color: Red; font-weight: bold">asdas</label>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label" style="color:black; font-weight:bold">
+                            Room Bill ==>
+                        </label>
+                        <label class="control-label" id="Lbl_Roombill" maxlength="50" style="color: Red; font-weight: bold"></label>
+
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-md-offset-2">
+                    <div class="form-group">
+                        <label class="control-label" style="color:black; font-weight:bold">
+                            Total Bill ==>
+                        </label>
+                        <label class="control-label" id="Lbl_Totalbill" maxlength="50" style="color:darkgreen; font-weight:bold"></label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label" style="color:black; font-weight:bold">
+                            Remaining Bill ==>
+                        </label>
+                        <label class="control-label" id="Lbl_Remainingbill" maxlength="50" style="color: darkgreen; font-weight: bold"></label>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <div class="row" style="margin-left: 30px; padding-top: 10px">
+                <div class="col-md-4 col-md-offset-1">
+                    <div class="form-group">
+                        <label class="control-label" style="color:black; font-weight:bold">
+                            Doctor Bill
+                        </label>
+                        <input type="text" style="height: 34px; margin-left: 10px;" id="Doctor_Bill" class="txt" maxlength="6" onkeypress="return isNumberKey(event)" onkeyup="return calculateSum()">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label" style="color:black; font-weight:bold">
+                            Medical Bill
+                        </label>
+                        <input type="text" style="height: 34px; margin-left: 3px; " class="txt" id="Medical_Bill" maxlength="6" onkeypress="return isNumberKey(event)" onkeyup="return calculateSum()">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="margin-left: 30px;">
+                <div class="col-md-4 col-md-offset-1">
+                    <div class="form-group">
+                        <label class="control-label" style="color:black; font-weight:bold">
+                            Room Bill
+                        </label>
+                        <input type="text" style="height: 34px; margin-left: 16px;" id="Room_Bill" class="txt" maxlength="6" onkeypress="return isNumberKey(event)" onkeyup="return calculateSum()">
+
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label" style="color:black; font-weight:bold">
+                            Total Bill
+                        </label>
+                        <input type="text" style="height: 34px; margin-left: 22px;" id="Total_Bill" maxlength="6" disabled>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="margin-top:5px">
+                <div class="col-md-1 col-md-offset-4">
+                    <div class="form-group">
+                        <input type="button" id="Generatetxt" value="Generate Bill" class="btn" style="background-color: #6bbce7; color: white; margin-right: 5%" onclick="return SaveBill()" />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <input type="button" value="Cancel" class="btn" style="background-color: #6bbce7; color: white; margin-left: 20%" onclick="return hideform()" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+</body>
+</html>

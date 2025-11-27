@@ -1,0 +1,159 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_CaseLayout.cshtml";
+}
+
+<script type="text/javascript">
+
+    var item = '';
+ $(document).ready(function () {
+     item += '<tr><td colspan="7" style="text-align:center">No records found.</td></tr>';
+     $('#Bindgridappointment').html('').append(item);
+ });
+
+    function PatientOnlineReport() {
+
+        var Fromdate = $("#from_date").val().trim();
+      
+        if (Fromdate == "") {
+            not2("Please enter the From date.")
+            $('#from_date').focus();
+            $('body,html').animate({ scrollTop: 0 }, 0);
+            return false;
+        }
+
+        var url = '@Url.Action("OnlineGrid", "Appointment")';
+        debugger;
+        var data1 = {
+            "Fromdate": Fromdate
+         
+        }
+        $.ajax({
+            'async': false,
+            'type': "POST",
+            'global': false,
+            'dataType': 'json',
+            'url': url,
+            'data': data1,
+            'success': function (data) {
+                data = JSON.parse(data);
+                var item = '';
+                var Sno = 0;
+
+                if (data.Table.length == 0) {
+
+                    // $('#DrTaskID').val(data);
+                    item += '<tr><td colspan="7" style="text-align:center">No records found.</td></tr>';
+                }
+                for (var i = 0; i < data.Table.length; i++) {
+                    Sno = Sno + 1;
+
+                    item += '<tr><td title="' + data.Table[i].Row_Num + '">' + data.Table[i].Row_Num +
+                        '</td><td title="' + data.Table[i].Patient_onlineRegId + '">' + data.Table[i].Patient_onlineRegId +
+                        '</td><td title="' + data.Table[i].Patient_name + '">' + data.Table[i].Patient_name +
+                        '</td><td title="' + data.Table[i].Patient_gender + '">' + data.Table[i].Patient_gender +
+                        '</td><td title="' + data.Table[i].Patient_age + '">' + data.Table[i].Patient_age +
+                        '</td><td title="' + data.Table[i].Patient_mobile + '">' + data.Table[i].Patient_mobile +
+                        '</td><td title="' + data.Table[i].Patient_Specialist + '">' + data.Table[i].Patient_Specialist +
+                        '</td><td title="' + data.Table[i].Patient_appointmentdate + '">' + data.Table[i].Patient_appointmentdate +
+                        '</td>'
+
+                }
+                item += '</tr>';
+
+
+
+                $('#Bindgridappointment').html('').append(item);
+            }
+        });
+    }
+</script>
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .border-box {
+            position: relative;
+            border: 3px solid #6bbce7;
+            Padding: 20px;
+        }
+
+        .top-panel {
+            background-color: #6bbce7; /* #82CAFA  #55AAFF */
+            padding: 10px;
+            text-align: center;
+            color: white;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+
+
+    <div id="AddForm" style="margin-top:30px;">
+        <div class="top-panel">
+            <img src="~/Images/Doctoremoj.jpg" width="30" height="30" style="border-radius:50%" />
+            <span id="head">Online Appointment</span>
+        </div>
+        <div class="row" style="margin-top:15px;">
+
+            <div class="col-md-3 col-md-offset-4">
+                <div class="form-group">
+                    <label class="control-label" style="color:black; font-weight:bold">
+                        From Date
+                    </label>
+
+                    <input type="date" placeholder="" id="from_date" autocomplete="off" style="width:150px">
+
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <input type="button" id="buttontxt" value="Search" class="btn" style="background-color: #6bbce7; color: White;" onclick="PatientOnlineReport()" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="gridpage">
+            <h3 id="oo1" style="text-align: center; color: #6bbce7; margin-top: 35px; font-weight: bold">Online Appointment</h3>
+
+            <div class="col-md-12">
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-12">
+                    <div class="panel panel-primary filterable" style="border-color: #6bbce7; color: black" id="FocusTable">
+                        <div class="panel-heading" style="background: #6bbce7; border-color: #6bbce7; ">
+                            <h3 class="panel-title" style="font-weight:bold">Appointment Details</h3>
+
+
+                        </div>
+                        <table class="table" id="ComtxtpractiestypeAtt">
+                            <thead>
+                                <tr class="filters">
+                                    <th>#</th>
+                                    <th class="table-sort">Patient ID </th>
+                                    <th class="table-sort">Name</th>
+                                    <th class="table-sort">Gender</th>
+                                    <th class="table-sort">Age</th>
+                                    <th class="table-sort">Mobile</th>
+                                    <th class="table-sort">Specialist</th>
+                                    <th class="table-sort">Appointment Date</th>
+
+                                </tr>
+                            </thead>
+                            <tbody id="Bindgridappointment" style="color: black"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                </div>
+            </div>
+        </div>
+
+</body>
+</html>
+

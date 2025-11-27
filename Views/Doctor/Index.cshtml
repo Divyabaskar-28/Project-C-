@@ -1,0 +1,554 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_CaseLayout.cshtml";
+}
+
+<script type="text/javascript">
+
+    var IDD = 1;
+    var IUD = 1;
+
+    $(document).ready(function () {
+        $("#dr_blood select").val("0");
+        BindDoctorGrid();
+        
+        
+
+    });
+
+
+    function hideform() {
+        $('#AddForm').css('display', 'none');
+        $('#gridpage').css('display', 'block');
+        $("#dr_blood select").val("0");
+        //$('#head').html('').html('CASE MANAGEMENT');
+        //$('body,html').animate({ scrollTop: 0 }, 0);
+    }
+
+    function GetDetail(doctor_Id, Action) {
+
+         IDD = 1;
+       $('#AddForm').css('display', 'block');
+        $('#gridpage').css('display', 'none');
+        $('body,html').animate({ scrollTop: 0 }, 0);
+        IUD = Action;
+        cleartext();
+        $("#buttontxt").attr('value', 'SUBMIT');
+        
+
+    }
+
+    function GetDetailBook(doctor_Id, Action)
+    {
+        debugger;
+        IDD = doctor_Id;
+        IUD = Action;
+        $('#AddForm').css('display', 'block');
+        $('#gridpage').css('display', 'none');
+
+        $('body,html').animate({ scrollTop: 0 }, 0);
+        if (Action == 1) {
+            // document.getElementById("book_name").disabled = false;
+            //document.getElementById("book_author").disabled = false;
+            //$('#head').html('').html("DOCTOR'S TASK - ADD");
+            $("#buttontxt").attr('value', 'SUBMIT');
+            //cleartext();
+            //OnchangStatus();
+        }
+        if (Action == 2) {
+            ////document.getElementById("book_name").disabled = true;
+            //document.getElementById("book_author").disabled = true;
+            $('#head').html('').html("DOCTOR'S TASK - EDIT");
+            $("#buttontxt").attr('value', 'UPDATE');
+            //disableremove();
+            //OnchangStatus();
+        }
+        if (Action == 3) {
+            $('#head').html('').html("DOCTOR'S TASK - DELETE");
+            $("#buttontxt").attr('value', 'DELETE');
+           // disablebutton();
+
+        }
+        if (Action != 1) {
+            var url = '@Url.Action("GetDetailDoctor", "Doctor")';
+            var data1 = { "Doctor_Id": IDD };
+            $.ajax({
+                'type': "POST",
+                'global': false,
+                'dataType': 'json',
+                'url': url,
+                'data': data1,
+                'success': function (data) {
+                    data = JSON.parse(data);
+                    $("#dr_fname").val(data.Table[0].doctor_firstname);
+                    $("#dr_lname").val(data.Table[0].doctor_lastname);
+                    $("#dr_gender").val(data.Table[0].doctor_gender);
+                    $("#dr_mobile").val(data.Table[0].doctor_Mobile);
+                    $("#dr_email").val(data.Table[0].doctor_email);
+                    $("#dr_blood").val(data.Table[0].doctor_blood);
+                    $("#dr_degree").val(data.Table[0].doctor_degree);
+                    $("#dr_specialist").val(data.Table[0].doctor_Specialist);
+                    $("#dr_address").val(data.Table[0].doctor_Address);
+                    //FromDtChang();
+                }
+            });
+        }
+    }
+
+    function BindDoctorGrid() {
+
+        var url = '@Url.Action("griddoctor", "Doctor")';
+        debugger;
+        var data1 = {}
+        $.ajax({
+            'async': false,
+            'type': "POST",
+            'global': false,
+            'dataType': 'json',
+            'url': url,
+            'data': data1,
+            'success': function (data) {
+                data = JSON.parse(data);
+                var item = '';
+                if (data == "") {
+                    item += '<tr><td colspan="8" style="text-align:center">No records found.</td></tr>';
+                }
+                for (var i = 0; i < data.Table.length; i++) {
+
+
+                    item += '<tr><td title="' + data.Table[i].Row_Num + '">' + data.Table[i].Row_Num +
+                        '</td><td title="' + data.Table[i].doctor_firstname + '">' + data.Table[i].doctor_firstname +
+                        '</td><td title="' + data.Table[i].doctor_lastname + '">' + data.Table[i].doctor_lastname +
+                        '</td><td title="' + data.Table[i].doctor_Mobile + '">' + data.Table[i].doctor_Mobile +
+                        '</td><td title="' + data.Table[i].doctor_email + '">' + data.Table[i].doctor_email +
+                        '</td><td title="' + data.Table[i].doctor_degree + '">' + data.Table[i].doctor_degree +
+                        '</td><td title="' + data.Table[i].doctor_Specialist + '">' + data.Table[i].doctor_Specialist +                  
+                        '</td>';
+                    item += '<td class="awsemfontcolor">';
+                    item += '<i class="fa fa-pencil-square-o" style="font-size: 18px;color:#6bbce7;cursor:pointer;" title="Modify" onclick="GetDetailBook(' + data.Table[i].doctor_Id + ',2)"></i>&nbsp;';
+                    item += '<i class="fa fa-times-circle" style="font-size: 18px;color:#6bbce7;cursor:pointer;" title="Delete" onclick="GetDetailBook(' + data.Table[i].doctor_Id + ',3)" ></i>&nbsp;';
+                    }
+                    item += '</td></tr>';
+
+
+
+                $('#Bindgriddoctor').html('').append(item);
+            }
+        });
+    }
+
+
+    function cleartext() {
+
+        document.getElementById("dr_fname").value = "";
+        document.getElementById("dr_lname").value = "";
+        document.getElementById("dr_gender").selectedIndex = 0;
+
+        document.getElementById("dr_mobile").value = "";
+        document.getElementById("dr_email").value = "";
+        document.getElementById("dr_blood").selectedIndex = 0;
+
+        document.getElementById("dr_degree").value = "";
+
+        document.getElementById("dr_specialist").selectedIndex = 0;
+
+        document.getElementById("dr_address").value = "";
+    }
+
+
+    function Doctor_IUD() {
+        
+        var doctor_fname = $("#dr_fname").val();
+        var doctor_lname = $("#dr_lname").val();
+        var doctor_gender = $("#dr_gender :selected").text();
+        var doctor_mobile = $("#dr_mobile").val();
+        var doctor_email = $("#dr_email").val();
+        var doctor_blood = $("#dr_blood :selected").text();
+        var doctor_degree = $("#dr_degree").val().trim();
+        var doctor_specialist = $("#dr_specialist :selected").text();
+        var doctor_address = $("#dr_address").val().trim();
+        if (IUD == 1 || IUD == 2){
+
+            if (doctor_fname == "") {
+                not2("Please enter the doctor firstname.")
+                $('#dr_name').focus();
+                $('body,html').animate({ scrollTop: 0 }, 0);
+                return false;
+            }
+            if (doctor_lname == "") {
+                not2("Please enter the doctor lastname.")
+                $('#dr_name').focus();
+                $('body,html').animate({ scrollTop: 0 }, 0);
+                return false;
+            }
+            if (doctor_gender == "Select") {
+                not2("Please select the doctor gender.")
+                $('#dr_gender').focus();
+                $('body,html').animate({ scrollTop: 0 }, 0);
+                return false;
+            }
+            if (doctor_mobile == "") {
+                not2("Please enter the doctor mobile no.")
+                $('#dr_mobile').focus();
+                $('body,html').animate({ scrollTop: 0 }, 0);
+                return false;
+            }
+            if (doctor_email == "") {
+                not2("Please enter the doctor email.")
+                $('#dr_mobile').focus();
+                $('body,html').animate({ scrollTop: 0 }, 0);
+                return false;
+            }
+            if (doctor_blood == "Select") {
+                not2("Please select the doctor blood type.")
+                $('#dr_mobile').focus();
+                $('body,html').animate({ scrollTop: 0 }, 0);
+                return false;
+            }
+            if (doctor_degree == "") {
+                not2("Please enter the doctor degree.")
+                $('#dr_degree').focus();
+                $('body,html').animate({ scrollTop: 0 }, 0);
+                return false;
+            }
+            if (doctor_specialist == "Select") {
+                not2("Please select the doctor specialist.")
+                $('#dr_specialist').focus();
+                $('body,html').animate({ scrollTop: 0 }, 0);
+                return false;
+            }
+            if (doctor_address == "") {
+                not2("Please enter the doctor address.")
+                $('#doctor_address').focus();
+                $('body,html').animate({ scrollTop: 0 }, 0);
+                return false;
+            }
+        }
+
+
+        var url = '@Url.Action("doctor_iud", "Doctor")';
+        var data1 = {
+            "doctor_ID": IDD,
+            "doctor_firstname": doctor_fname,
+            "doctor_lastname": doctor_lname,
+            "doctor_gender": doctor_gender,
+            "doctor_mobile": doctor_mobile,
+            "doctor_degree": doctor_degree,
+            "doctor_specialist": doctor_specialist,
+            "doctor_address": doctor_address,
+            "doctor_email": doctor_email,
+            "doctor_blood": doctor_blood,
+            "flag": IUD
+        }
+        $.ajax({
+            'type': "POST",
+            'global': false,
+            'dataType': 'json',
+            'url': url,
+            'data': data1,
+            'success': function (data) {
+                data=JSON.parse(data);
+                if (data.Table[0].Result == "S") {
+
+                    $('body,html').animate({ scrollTop: 0 }, 0);
+                    if (IUD == 1) {
+                        not1("Your data has been added successfully.");
+                        $('#AddForm').css('display', 'none');
+                        $('#gridpage').css('display', 'block');
+                        BindDoctorGrid();
+                        cleartext();
+                    }
+                    if (IUD == 2) {
+                        not1("Your data has been modified successfully.")
+                        $('#AddForm').css('display', 'none');
+                        $('#gridpage').css('display', 'block');
+                        BindDoctorGrid();
+                        cleartext();
+                    }
+                    if (IUD == 3) {
+                        not1("Your data has been deleted successfully.");
+                        $('#AddForm').css('display', 'none');
+                        $('#gridpage').css('display', 'block');
+                        BindDoctorGrid();
+                        cleartext();
+                    }
+                }
+                else if (data.Table[0].Result == "N")
+                {
+                    not2("Doctor is already exists.")
+                   
+                }
+                else if (data.Table[0].Result == "NO") {
+                    not2("Doctor is already assigned for Patient.")
+
+                }
+
+                //else {
+                //    not2("Already Exists Book and author name.")
+                //    $('#book_name').focus();
+                //}
+                $('body,html').animate({ scrollTop: 0 }, 0);
+
+            }
+        });
+    }
+</script>
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body{
+            overflow-x:hidden;
+        }
+        .border-box {
+            position: relative;
+            border: 3px solid #6bbce7;
+            Padding: 20px;
+            
+        }
+
+        .top-panel {
+            background-color: #6bbce7; /* #82CAFA  #55AAFF */
+            padding: 10px;
+            text-align: center;
+            color: white;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+
+
+    <div id="AddForm" style="margin-top:30px;display:none">
+        <div class="top-panel">
+            <img src="~/Images/Doctoremoj.jpg" width="30" height="30" style="border-radius:50%" />
+            <span>Doctor Details</span>
+        </div>
+        <div class="border-box">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label" style="color:black; font-weight:bold">
+                            Firstname
+                        </label>
+                        <div class="input-icon right">
+                            <i class="fa fa-user"></i>
+                            <input type="text" class="form-control" placeholder="" id="dr_fname" maxlength="50" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label" style="color:black; font-weight:bold">
+                            Lastname
+                        </label>
+                        <div class="input-icon right">
+                            <i class="fa fa-user"></i>
+                            <input type="text" class="form-control" placeholder="" id="dr_lname" maxlength="50" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label" style="color:black; font-weight:bold">
+                            Gender
+                        </label>
+                        <div class="input-icon right">
+                            <select class="form-control" id="dr_gender">
+                                <option value="Select" selected="selected">Select</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label" style="color:black; font-weight:bold">
+                            Mobile No
+                        </label>
+                        <div class="input-icon right">
+                            <i class="fa fa-mobile"></i>
+                            <input type="text" class="form-control" placeholder="" id="dr_mobile" maxlength="10" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label" style="color:black; font-weight:bold">
+                            Email
+                        </label>
+                        <div class="input-icon right">
+                            <i class="fa fa-mobile"></i>
+                            <input type="text" class="form-control" placeholder="" id="dr_email" maxlength="50" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label" style="color: black; font-weight: bold;">
+                            Blood Group
+                        </label>
+                        <div class="input-icon right">
+                            <select class="form-control" id="dr_blood">
+                                <option value="Select" selected>Select</option>
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label" style="color:black; font-weight:bold">
+                            Degree
+                        </label>
+                        <div class="input-icon right">
+                            <i class="fa fa-user"></i>
+                            <input type="text" class="form-control" placeholder="" id="dr_degree" maxlength="50" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label" style="color:black; font-weight:bold">
+                            Specialist
+                        </label>
+                        <div class="input-icon right">
+                            <div class="input-icon right">
+                                <i class="fa fa-pencil-square-o"></i>
+                                <select class="form-control" id="dr_specialist">
+                                    <option value="Select">Select</option>
+                                    <option value="General Practitioners">General Practitioners</option>
+                                    <option value="Cardiologists">Cardiologists</option>
+                                    <option value="Neurologists">Neurologists</option>
+                                    <option value="Dermatologists">Dermatologists</option>
+                                    <option value="Pediatricians">Pediatricians</option>
+                                    <option value="Orthopedic Surgeons">Orthopedic Surgeons</option>
+                                    <option value="Gynecologists">Gynecologists</option>
+                                    <option value="Ophthalmologists">Ophthalmologists</option>
+                                    <option value="Psychiatrists">Psychiatrists</option>
+                                    <option value="Oncologists">Oncologists</option>
+                                    <option value="Surgeons">Surgeons</option>
+                                    <option value="Endocrinologists">Endocrinologists</option>
+                                    <option value="Urologists">Urologists</option>
+                                    <option value="Anesthesiologists">Anesthesiologists</option>
+                                    <option value="Radiologists">Radiologists</option>
+                                    <option value="Rheumatologists">Rheumatologists</option>
+                                    <option value="ENT">ENT</option>
+                                    <option value="Gastroenterologists">Gastroenterologists</option>
+                                    <option value="Immunologists/Allergists">Immunologists/Allergists</option>
+                                    <option value="Plastic Surgeons">Plastic Surgeons</option>
+                                    <option value="Pathologists">Pathologists</option>
+                                    <option value="Infectious Disease Specialist">Infectious Disease Specialist</option>
+                                    <option value="Dentist">Dentist</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label" style="color:black; font-weight:bold">
+                            Address
+                        </label>
+                        <textarea class="form-control" rows="2" id="dr_address" maxlength="250" autocomplete="off"></textarea>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="row" style="margin-top:5px">
+                <div class="col-md-1 col-md-offset-5">
+                    <div class="form-group">
+                        <input type="button" id="buttontxt" value="SUBMIT" class="btn" style="background-color: #6bbce7; color: white; margin-right: 5% " onclick="return Doctor_IUD()" />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <input type="button" value="CANCEL" class="btn" style="background-color: #6bbce7; color: white; margin-left: 5%" onclick="return hideform()" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="gridpage">
+        <h3 id="oo1" style="text-align: center; color: #6bbce7; margin-top: 35px; font-weight: bold">DOCTOR MANAGEMENT</h3>
+        <div class="col-md-12 col-md-offset-2">
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-3">
+                @*<div class="input-icon right">
+                        <i class="fa fa-search"></i>
+                        <input type="text" class="form-control" id="ComSearchTxt" onkeyup="doSearch('ComSearchTxt','ComtxtpractiestypeAtt')" oninput="doSearch('ComSearchTxt','ComtxtpractiestypeAtt')" placeholder="Search" />
+                    </div>*@
+            </div>
+            <div class="col-md-4">
+
+            </div>
+
+            <div class="col-md-1" style="text-align:right">
+                <div onclick="return GetDetail(1, 1)" title="Add" style="cursor: pointer; display: block;height: 34px" id="rowpullrightadd1">
+
+                    <i style="font-size: 25px; color: #6bbce7; padding-top: 8px" class="fa fa-plus-circle"></i>
+                </div>
+            </div>
+
+            <div class="col-md-3"></div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-12">
+                <div class="panel panel-primary filterable" style="border-color: #6bbce7; color: black" id="FocusTable">
+                    <div class="panel-heading" style="background: #6bbce7; border-color: #6bbce7; ">
+                        <h3 class="panel-title" style="font-weight:bold">Doctor Details</h3>
+
+
+                    </div>
+                    <table class="table" id="ComtxtpractiestypeAtt">
+                        <thead>
+                            <tr class="filters">
+                                <th>#</th>
+                                <th class="table-sort">First Name</th>
+                                <th class="table-sort">Last Name</th>
+                                <th class="table-sort">Mobile</th>
+                                <th class="table-sort">Email</th>
+                                <th class="table-sort">Department</th>
+                                <th class="table-sort">Specialist</th>
+                                <th>Action</th>
+
+                            </tr>
+                        </thead>
+                        <tbody id="Bindgriddoctor" style="color: black"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-3">
+            </div>
+        </div>
+    </div>
+   
+</body>
+</html>
+

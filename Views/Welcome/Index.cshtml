@@ -1,0 +1,1149 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+
+    <style type="text/css">
+
+        body, html {
+            height: 70%;
+            margin: 0;
+            top: 0;
+        }
+
+        .bg {
+            /* The image used */
+            /*background-image: url("/Images/welcome.jpg");*/
+            /* Full height */
+            /*height: 100%;*/
+            /* Center and scale the image nicely */
+            /*background-position: center;*/
+            /*background-repeat: no-repeat;*/
+        }
+
+        .testimonial {
+            background-color: #6cf;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .hero-images {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+            .hero-images img {
+                width: 100%;
+                max-width: 300px;
+                height: auto;
+                margin: 10px;
+                border-radius: 15px;
+                box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+                transition: 0.3s ease-in-out;
+            }
+
+                .hero-images img:hover {
+                    transform: scale(1.05);
+                }
+
+        .container {
+            padding-top: 50px;
+        }
+
+        .section {
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+            .section h2 {
+                color: #6cf;
+                font-weight: bold;
+            }
+
+        .image-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+            .image-container img {
+                width: 300px;
+                height: 200px;
+                border-radius: 10px;
+                box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+            }
+        /* Section styling */
+        /*.services-section {
+            background: #6cf;
+            text-align: center;
+            padding: 60px 20px;
+        }*/
+
+        /* Title and subtitle */
+        .section-title {
+            font-size: 2em;
+            font-weight: bold;
+            color: #6cf;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            font-size: 1.2em;
+            color: black;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        /* Service boxes */
+        .row {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .service-box {
+            background: #6cf;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 350px;
+            min-width: 280px;
+            font-size: 1.1em;
+            gap: 40px;
+        }
+
+            .service-box h4 {
+                font-weight: bold;
+                color: white;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+            }
+
+            .service-box p {
+                color: #555;
+                font-weight: bold;
+            }
+
+        .top-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50px;
+            background-color: #6cf; /* Light blue background */
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 1000; /* Ensures it stays on top */
+        }
+
+        .top-bar-content {
+            margin-left: 40px;
+            display: flex;
+            align-items: center;
+            gap: 15px; /* Space between icons */
+        }
+
+        i {
+            cursor: pointer; /* Makes icons clickable */
+        }
+    </style>
+    @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">*@
+    <link href="~/script/bootstrap1.min.css" rel="stylesheet" />
+    @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>*@
+    <script src="~/script/jquery1.min.js"></script>
+    @*<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>*@
+    <script src="~/script/bootstrap2.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="@Url.Content("~/styles/font-awesome.min.css")">
+
+    @*<link type="text/css" rel="stylesheet" href="@Url.Content("~/styles/jquery-ui-1.10.4.custom.min.css")">
+        <link type="text/css" rel="stylesheet" href="@Url.Content("~/styles/font-awesome.min.css")">
+        <link type="text/css" rel="stylesheet" href="@Url.Content("~/styles/bootstrap.min.css")">*@
+
+    @*<script src="@Url.Content("~/Scripts/bootstrap.min.js")"></script>*@
+    <script type="text/javascript">
+
+        function SaveOnline() {
+
+            var pat_name = $("#txt_patient").val().trim();
+            var pat_age = $("#txt_age").val().trim();
+            var pat_gender = $("#dd_gender").val().trim();
+            var pat_mobile = $("#txt_mobile").val().trim();
+            var pat_Specialist = $("#dr_specialist").val();
+            var pat_appointmentdate = $("#txt_admitteddate").val();
+            if (pat_name == "") {
+                not2("Please enter the patient name.")
+                $('#txt_patient').focus();
+                $('body,html').animate({ scrollTop: 0 }, 0);
+                return false;
+            }
+            if (pat_age == "") {
+                not2("Please enter the patient age.")
+                $('#txt_age').focus();
+                $('body,html').animate({ scrollTop: 0 }, 0);
+                return false;
+            }
+            if (pat_gender == "Select") {
+                not2("Please enter the patient gender.")
+                $('#dd_gender').focus();
+                $('body,html').animate({ scrollTop: 0 }, 0);
+                return false;
+            }
+            if (pat_mobile == "") {
+                not2("Please enter the patient mobile no.")
+                $('#txt_mobile').focus();
+                $('body,html').animate({ scrollTop: 0 }, 0);
+                return false;
+            }
+
+            if (pat_Specialist == "Select") {
+                not2("Please select the Specialist.")
+                $('#dr_specialist').focus();
+                $('body,html').animate({ scrollTop: 0 }, 0);
+                return false;
+            }
+            if (pat_appointmentdate == "") {
+                not2("Please enter the appointment date.")
+                $('#txt_admitteddate').focus();
+                $('body,html').animate({ scrollTop: 0 }, 0);
+                return false;
+            }
+
+
+
+
+            var url = '@Url.Action("SaveonlinePatient", "Welcome")';
+            var data1 = {
+                "pat_name": pat_name,
+                "pat_gender": pat_gender,
+                "pat_age": pat_age,
+                "pat_mobile": pat_mobile,
+                "pat_Specialist": pat_Specialist,
+                "pat_appointmentdate": pat_appointmentdate
+
+
+            }
+            $.ajax({
+                'type': "POST",
+                'global': false,
+                'dataType': 'json',
+                'url': url,
+                'data': data1,
+                'success': function (data) {
+                    data = JSON.parse(data);
+                    if (data.Table[0].Result == "S") {
+
+                        not1("Your data has been added successfully.");
+                        $('body,html').animate({ scrollTop: 0 }, 500);
+                        $("#myModal").modal('hide');
+
+                    }
+
+                }
+
+            });
+
+    }
+
+
+
+    function SaveContact() {
+        let timeout;
+        var pat_ID = $("#contxt_ID").val().trim();
+        var pat_Name = $("#contxt_patient").val().trim();
+        var pat_gender = $("#condd_gender").val().trim();
+        var pat_mobile = $("#contxt_mobile").val().trim();
+        var pat_email = $("#contxt_email").val().trim();
+        var pat_Specialist = $("#condr_specialist").val();
+        var pat_dieasenotes = $("#contxt_Disease").val();
+        if (pat_ID == "") {
+            not2("Please enter the patient ID.")
+            $('#pat_ID').focus();
+            $('body,html').animate({ scrollTop: 0 }, 0);
+            return false;
+        }
+        if (pat_Name == "") {
+            not2("Please enter the patient Name.")
+            $('#pat_Name').focus();
+            $('body,html').animate({ scrollTop: 0 }, 0);
+            return false;
+        }
+        if (pat_gender == "Select") {
+            not2("Please enter the patient gender.")
+            $('#condd_gender').focus();
+            $('body,html').animate({ scrollTop: 0 }, 0);
+            return false;
+        }
+        if (pat_mobile == "") {
+            not2("Please enter the patient mobile no.")
+            $('#contxt_mobile').focus();
+            $('body,html').animate({ scrollTop: 0 }, 0);
+            return false;
+        }
+
+        if (pat_email == "") {
+            not2("Please enter the patient email.")
+            $('#contxt_email').focus();
+            $('body,html').animate({ scrollTop: 0 }, 0);
+            return false;
+        }
+
+        if (pat_Specialist == "Select") {
+            not2("Please select the Specialist.")
+            $('#dr_specialist').focus();
+            $('body,html').animate({ scrollTop: 0 }, 0);
+            return false;
+        }
+        if (pat_dieasenotes == "") {
+            not2("Please enter the disease notes.")
+            $('#contxt_Disease').focus();
+            $('body,html').animate({ scrollTop: 0 }, 0);
+            return false;
+        }
+
+        var url = '@Url.Action("SavecontactPatient", "Welcome")';
+        var data1 = {
+            "pat_ID": pat_ID,
+            "pat_Name": pat_Name,
+            "pat_gender": pat_gender,
+            "pat_mobile": pat_mobile,
+            "pat_email": pat_email,
+            "pat_Specialist": pat_Specialist,
+            "pat_dieasenotes": pat_dieasenotes
+
+
+        }
+        $.ajax({
+            'type': "POST",
+            'global': false,
+            'dataType': 'json',
+            'url': url,
+            'data': data1,
+            'success': function (data) {
+               /* data = JSON.parse(data);*/
+
+                timeout = setTimeout(alertFunc, 3000);
+                    not1("Data Posted Successfully.");
+                    $('body,html').animate({ scrollTop: 0 }, 500);
+                $("#myModall").modal('hide');
+                not1("Data Posted Successfully.");
+
+
+
+            }
+
+        });
+
+    }
+    </script>
+
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body class="welcomeimg">
+    <div class="top-bar">
+        <div class="top-bar-content">
+            <i class="fa fa-facebook" aria-hidden="true"></i>&nbsp;&nbsp;
+            <i class="fa fa-instagram" aria-hidden="true"></i>&nbsp;&nbsp;
+            <i class="fa fa-twitter" aria-hidden="true"></i>&nbsp;&nbsp;
+            <i class="fa fa-mobile" aria-hidden="true" style="margin-left:600px;"></i>&nbsp; 8220619629 &nbsp;&nbsp;
+            <i class="fa fa-envelope" aria-hidden="true"></i>&nbsp; dd.customersupport@gmail.com
+        </div>
+    </div>
+
+
+    <div class="bg"></div>
+    @*<div class="row col-md-offset-4" style="height: 30px; color: #6cf;font-size:30px; margin-top:50px;"><b>Hospital Management System</b></div>*@
+    @*<hr style="border-bottom: 1px solid #6cf" />*@
+    @*<div class="row">
+            <div class="col-md-6 col-md-offset-3" style="width:55%"><b>A Hospital Management System (HMS) is software that helps hospitals manage patient information, appointments, billing, inventory, and other administrative tasks, improving efficiency and patient care</b>. </div>
+        </div>*@
+
+    @*<hr style="border-bottom: 1px solid #6cf" />*@
+
+    <div class="container" id="home">
+        <div class="section">
+            <h2>Welcome to Our Hospital Management System</h2>
+            <p>Providing seamless healthcare management with automated patient records, appointment scheduling, and hospital administration.</p>
+
+            <div class="image-container">
+                <img src="~/Images/hm3.jpg" alt="Hospital">
+                <img src="~/Images/hm1.jpeg" alt="Doctor">
+                <img src="~/Images/hm2.jpg" alt="Infrastructure">
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row justify-content-center" style="margin-top:20px;margin-right:250px;">
+        <div class="col-md-2 col-md-offset-3">
+            <div class="form-group">
+                <a href="~/Login/Index"> <input type="button" id="buttontxt" value="Admin Login" class="btn" style="background-color: #6cf; color: white; width: 170px; height: 60px; border-radius: 20%" /></a>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <input type="button" value="Contact Us" class="btn" style="background-color: #6cf; color: white; width: 170px; height: 60px; border-radius: 20%" data-toggle="modal" data-target="#myModall" />
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <input type="button" value="Online Appointments" class="btn" style="background-color: #6cf; color: white; width: 170px; height: 60px;border-radius:20%" data-toggle="modal" data-target="#myModal" />
+            </div>
+        </div>
+    </div>
+
+    <div class="services-section" style="margin-top:130px;">
+        <h2 class="section-title">Our Hospital Services</h2>
+        <p class="section-subtitle">We provide the best care for you and your family!</p>
+
+        <div class="row justify-content-center">
+            <div class="col-md-3 service-box">
+                <h4>🩺 24/7 Emergency Care</h4>
+                <p>We provide round-the-clock emergency services.</p>
+            </div>
+            <div class="col-md-3 service-box">
+                <h4>🏥 Specialized Departments</h4>
+                <p>Our hospital has top-tier specialists in every field.</p>
+            </div>
+            <div class="col-md-3 service-box">
+                <h4>🩺 Expert Medical Consultation</h4>
+                <p>Expert doctors ensure accurate diagnoses and tailored treatments for every patient..</p>
+            </div>
+
+        </div>
+    </div>
+
+
+    @*<div class="row" style="height: 50px; background-color: #6cf; color: white;"></div>*@
+    <div class="testimonial" style="margin-top:190px;">
+        <h2 style="color:white;">What Our Patients Say</h2>
+        <p>"This hospital saved my life! The staff is very caring and professional." - <strong>John Doe</strong></p>
+        <p>"Amazing facilities and excellent doctors. Highly recommend!" - <strong>Sarah Wilson</strong></p>
+    </div>
+
+    <form class="form-horizontal" action="#">
+        <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color: #6cf; color: white;">
+                        @*<button type="button" class="close" data-dismiss="modal">&times;</button>*@
+                        <h4 class="modal-title">Online Appointments</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            @*<h2>Horizontal form with static control</h2>*@
+
+                            <div id="successmsg" style="display:none;color:green">Your data has been added successfully.</div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-2">Patient Name:</label>
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" id="txt_patient" placeholder="Patient Name" name="patient" maxlength="50">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="pwd">Age:</label>
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" id="txt_age" placeholder="Age" name="age" maxlength="2">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="pwd">Gender:</label>
+                                <div class="col-sm-3">
+                                    <select class="form-control" id="dd_gender">
+                                        <option value="Select">Select</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                    @*<input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pwd">*@
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="pwd">Mobile:</label>
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" id="txt_mobile" placeholder="Mobile" name="Mobile" maxlength="10">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="pwd">Specialist:</label>
+                                <div class="col-sm-3">
+                                    <select class="form-control" id="dr_specialist">
+                                        <option value="Select">Select</option>
+                                        <option value="General Practitioners">General Practitioners</option>
+                                        <option value="Cardiologists">Cardiologists</option>
+                                        <option value="Neurologists">Neurologists</option>
+                                        <option value="Dermatologists">Dermatologists</option>
+                                        <option value="Pediatricians">Pediatricians</option>
+                                        <option value="Orthopedic Surgeons">Orthopedic Surgeons</option>
+                                        <option value="Gynecologists">Gynecologists</option>
+                                        <option value="Ophthalmologists">Ophthalmologists</option>
+                                        <option value="Psychiatrists">Psychiatrists</option>
+                                        <option value="Oncologists">Oncologists</option>
+                                        <option value="Surgeons">Surgeons</option>
+                                        <option value="Endocrinologists">Endocrinologists</option>
+                                        <option value="Urologists">Urologists</option>
+                                        <option value="Anesthesiologists">Anesthesiologists</option>
+                                        <option value="Radiologists">Radiologists</option>
+                                        <option value="Rheumatologists">Rheumatologists</option>
+                                        <option value="ENT">ENT</option>
+                                        <option value="Gastroenterologists">Gastroenterologists</option>
+                                        <option value="Immunologists/Allergists">Immunologists/Allergists</option>
+                                        <option value="Plastic Surgeons">Plastic Surgeons</option>
+                                        <option value="Pathologists">Pathologists</option>
+                                        <option value="Infectious Disease Specialist">Infectious Disease Specialist</option>
+                                        <option value="Dentist">Dentist</option>
+                                    </select>
+                                    @*<input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pwd">*@
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="pwd">Appointment Date:</label>
+                                <div class="col-sm-3">
+                                    <input type="date" class="form-control" placeholder="" id="txt_admitteddate" maxlength="50" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-2">
+                                    @*<input type="button" value="SUBMIT" class="btn" id="buttontxt" style="background-color: #278BCE;color:White;" onclick="onsavedoctortask()" />*@
+                                    <button type="submit" class="btn btn-default" style="color: white; font-weight: bold; background-color: #6cf;" onclick="return SaveOnline()">Submit</button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="modal-footer">
+                            <buttonret type="button" class="btn btn-default" style="color:white; font-weight:bold; background-color:red;" data-dismiss="modal">Close</buttonret>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <form class="form-horizontal" action="#">
+        <div id="myModall" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color: #6cf; color: white;">
+                        @*<button type="button" class="close" data-dismiss="modal">&times;</button>*@
+                        <h4 class="modal-title">Contact Us</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            @*<h2>Horizontal form with static control</h2>*@
+
+                            <div id="successmsg" style="display:none;color:green">Your data has been added successfully.</div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="pwd">Patient ID:</label>
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" id="contxt_ID" placeholder="Patient ID" name="Patient ID" maxlength="5">
+                                </div>
+                            </div>
+                            <div class="form-group">
+
+                                <label class="control-label col-sm-2">Patient Name:</label>
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" id="contxt_patient" placeholder="Patient Name" name="patient" maxlength="50">
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="pwd">Gender:</label>
+                                <div class="col-sm-3">
+                                    <select class="form-control" id="condd_gender">
+                                        <option value="Select">Select</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                    @*<input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pwd">*@
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="pwd">Mobile:</label>
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" id="contxt_mobile" placeholder="Mobile" name="Mobile" maxlength="10">
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="pwd">Email:</label>
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" id="contxt_email" placeholder="Email" name="Email" maxlength="50">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="pwd">Specialist:</label>
+                                <div class="col-sm-3">
+                                    <select class="form-control" id="condr_specialist">
+                                        <option value="Select">Select</option>
+                                        <option value="General Practitioners">General Practitioners</option>
+                                        <option value="Cardiologists">Cardiologists</option>
+                                        <option value="Neurologists">Neurologists</option>
+                                        <option value="Dermatologists">Dermatologists</option>
+                                        <option value="Pediatricians">Pediatricians</option>
+                                        <option value="Orthopedic Surgeons">Orthopedic Surgeons</option>
+                                        <option value="Gynecologists">Gynecologists</option>
+                                        <option value="Ophthalmologists">Ophthalmologists</option>
+                                        <option value="Psychiatrists">Psychiatrists</option>
+                                        <option value="Oncologists">Oncologists</option>
+                                        <option value="Surgeons">Surgeons</option>
+                                        <option value="Endocrinologists">Endocrinologists</option>
+                                        <option value="Urologists">Urologists</option>
+                                        <option value="Anesthesiologists">Anesthesiologists</option>
+                                        <option value="Radiologists">Radiologists</option>
+                                        <option value="Rheumatologists">Rheumatologists</option>
+                                        <option value="ENT">ENT</option>
+                                        <option value="Gastroenterologists">Gastroenterologists</option>
+                                        <option value="Immunologists/Allergists">Immunologists/Allergists</option>
+                                        <option value="Plastic Surgeons">Plastic Surgeons</option>
+                                        <option value="Pathologists">Pathologists</option>
+                                        <option value="Infectious Disease Specialist">Infectious Disease Specialist</option>
+                                        <option value="Dentist">Dentist</option>
+                                    </select>
+                                    @*<input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pwd">*@
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="pwd">Disease Notes:</label>
+                                <div class="col-sm-3">
+                                    <textarea class="form-control" placeholder="" id="contxt_Disease" maxlength="500" autocomplete="off"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-2">
+                                    @*<input type="button" value="SUBMIT" class="btn" id="buttontxt" style="background-color: #278BCE;color:White;" onclick="onsavedoctortask()" />*@
+                                    <button type="submit" class="btn btn-default" style="color: white; font-weight: bold; background-color: #6cf;" onclick="return SaveContact()">Submit</button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="modal-footer">
+                            <buttonret type="button" class="btn btn-default" style="color:white; font-weight:bold; background-color:red;" data-dismiss="modal">Close</buttonret>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </form>
+
+</body>
+@{Html.RenderPartial("~/Views/Shared/_Popupnotification.cshtml");}
+</html>
+
+
+
+
+
+
+
+<!--@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+
+    <style type="text/css">
+
+        body, html {
+            height: 70%;
+            margin: 0;
+            top: 0;
+        }
+
+        .bg {
+            /* The image used */
+            background-image: url("/Images/welcome.jpg");
+            /* Full height */
+            height: 100%;
+            /* Center and scale the image nicely */
+            background-position: center;
+            /*background-repeat: no-repeat;*/
+        }
+    </style>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="@Url.Content("~/styles/font-awesome.min.css")">-->
+
+@*<link type="text/css" rel="stylesheet" href="@Url.Content("~/styles/jquery-ui-1.10.4.custom.min.css")">
+    <link type="text/css" rel="stylesheet" href="@Url.Content("~/styles/font-awesome.min.css")">
+    <link type="text/css" rel="stylesheet" href="@Url.Content("~/styles/bootstrap.min.css")">*@
+
+@*<script src="@Url.Content("~/Scripts/bootstrap.min.js")"></script>*@
+<!--<script type="text/javascript">
+
+        function SaveOnline() {
+
+            var pat_name = $("#txt_patient").val().trim();
+            var pat_age = $("#txt_age").val().trim();
+            var pat_gender = $("#dd_gender").val().trim();
+            var pat_mobile = $("#txt_mobile").val().trim();
+            var pat_Specialist = $("#dr_specialist").val();
+            var pat_appointmentdate = $("#txt_admitteddate").val();
+            if (pat_name == "") {
+                not2("Please enter the patient name.")
+                $('#txt_patient').focus();
+                $('body,html').animate({ scrollTop: 0 }, 0);
+                return false;
+            }
+            if (pat_age == "") {
+                not2("Please enter the patient age.")
+                $('#txt_age').focus();
+                $('body,html').animate({ scrollTop: 0 }, 0);
+                return false;
+            }
+            if (pat_gender == "Select") {
+                not2("Please enter the patient gender.")
+                $('#dd_gender').focus();
+                $('body,html').animate({ scrollTop: 0 }, 0);
+                return false;
+            }
+            if (pat_mobile == "") {
+                not2("Please enter the patient mobile no.")
+                $('#txt_mobile').focus();
+                $('body,html').animate({ scrollTop: 0 }, 0);
+                return false;
+            }
+
+            if (pat_Specialist == "Select") {
+                not2("Please select the Specialist.")
+                $('#dr_specialist').focus();
+                $('body,html').animate({ scrollTop: 0 }, 0);
+                return false;
+            }
+            if (pat_appointmentdate == "") {
+                not2("Please enter the appointment date.")
+                $('#txt_admitteddate').focus();
+                $('body,html').animate({ scrollTop: 0 }, 0);
+                return false;
+            }
+
+
+
+
+            var url = '@Url.Action("SaveonlinePatient", "Welcome")';
+            var data1 = {
+                "pat_name": pat_name,
+                "pat_gender": pat_gender,
+                "pat_age": pat_age,
+                "pat_mobile": pat_mobile,
+                "pat_Specialist": pat_Specialist,
+                "pat_appointmentdate": pat_appointmentdate
+
+
+            }
+            $.ajax({
+                'type': "POST",
+                'global': false,
+                'dataType': 'json',
+                'url': url,
+                'data': data1,
+                'success': function (data) {
+                    data = JSON.parse(data);
+                    if (data.Table[0].Result == "S") {
+
+                        not1("Your data has been added successfully.");
+                        $('body,html').animate({ scrollTop: 0 }, 500);
+                        $("#myModal").modal('hide');
+
+                    }
+
+                }
+
+            });
+
+    }
+
+
+
+    function SaveContact() {
+        let timeout;
+        var pat_ID = $("#contxt_ID").val().trim();
+        var pat_Name = $("#contxt_patient").val().trim();
+        var pat_gender = $("#condd_gender").val().trim();
+        var pat_mobile = $("#contxt_mobile").val().trim();
+        var pat_email = $("#contxt_email").val().trim();
+        var pat_Specialist = $("#condr_specialist").val();
+        var pat_dieasenotes = $("#contxt_Disease").val();
+        if (pat_ID == "") {
+            not2("Please enter the patient ID.")
+            $('#pat_ID').focus();
+            $('body,html').animate({ scrollTop: 0 }, 0);
+            return false;
+        }
+        if (pat_Name == "") {
+            not2("Please enter the patient Name.")
+            $('#pat_Name').focus();
+            $('body,html').animate({ scrollTop: 0 }, 0);
+            return false;
+        }
+        if (pat_gender == "Select") {
+            not2("Please enter the patient gender.")
+            $('#condd_gender').focus();
+            $('body,html').animate({ scrollTop: 0 }, 0);
+            return false;
+        }
+        if (pat_mobile == "") {
+            not2("Please enter the patient mobile no.")
+            $('#contxt_mobile').focus();
+            $('body,html').animate({ scrollTop: 0 }, 0);
+            return false;
+        }
+
+        if (pat_email == "") {
+            not2("Please enter the patient email.")
+            $('#contxt_email').focus();
+            $('body,html').animate({ scrollTop: 0 }, 0);
+            return false;
+        }
+
+        if (pat_Specialist == "Select") {
+            not2("Please select the Specialist.")
+            $('#dr_specialist').focus();
+            $('body,html').animate({ scrollTop: 0 }, 0);
+            return false;
+        }
+        if (pat_dieasenotes == "") {
+            not2("Please enter the disease notes.")
+            $('#contxt_Disease').focus();
+            $('body,html').animate({ scrollTop: 0 }, 0);
+            return false;
+        }
+
+        var url = '@Url.Action("SavecontactPatient", "Welcome")';
+        var data1 = {
+            "pat_ID": pat_ID,
+            "pat_Name": pat_Name,
+            "pat_gender": pat_gender,
+            "pat_mobile": pat_mobile,
+            "pat_email": pat_email,
+            "pat_Specialist": pat_Specialist,
+            "pat_dieasenotes": pat_dieasenotes
+
+
+        }
+        $.ajax({
+            'type': "POST",
+            'global': false,
+            'dataType': 'json',
+            'url': url,
+            'data': data1,
+            'success': function (data) {
+               /* data = JSON.parse(data);*/
+
+                timeout = setTimeout(alertFunc, 3000);
+                    not1("Data Posted Successfully.");
+                    $('body,html').animate({ scrollTop: 0 }, 500);
+                $("#myModall").modal('hide');
+                not1("Data Posted Successfully.");
+
+
+
+            }
+
+        });
+
+    }
+    </script>
+
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body class="welcomeimg">
+    <div class="row" style="height: 50px; background-color: #6cf; color: white">
+        <div style="margin-left:150px;margin-top:15px;font-weight:bold">
+            <i class="fa fa-facebook" aria-hidden="true"></i>&nbsp;&nbsp;
+            <i class="fa fa-instagram" aria-hidden="true"></i>&nbsp;&nbsp;
+            <i class="fa fa-twitter" aria-hidden="true"></i>
+            <i class="fa fa-envelope col-md-offset-7" aria-hidden="true"></i>&nbsp; 8220619629 &nbsp;&nbsp;
+            <i class="fa fa-mobile" aria-hidden="true"></i>&nbsp; dd.customersupport@gmail.com
+        </div>
+    </div>
+
+
+    <div class="bg"></div>
+    <div class="row col-md-offset-4" style="height: 30px; color: #6cf;font-size:30px"><b>Hospital Management System</b></div>
+    <hr style="border-bottom: 1px solid #6cf" />
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3" style="width:55%"><b>A Hospital Management System (HMS) is software that helps hospitals manage patient information, appointments, billing, inventory, and other administrative tasks, improving efficiency and patient care</b>. </div>
+    </div>
+
+    <hr style="border-bottom: 1px solid #6cf" />
+    <div class="row" style="margin-top:2px">
+        <div class="col-md-2 col-md-offset-3">
+            <div class="form-group">
+                <a href="~/Login/Index"> <input type="button" id="buttontxt" value="Admin Login" class="btn" style="background-color: #6cf; color: white; width: 170px; height: 60px; border-radius: 20%" /></a>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <input type="button" value="Contact Us" class="btn" style="background-color: #6cf; color: white; width: 170px; height: 60px; border-radius: 20%" data-toggle="modal" data-target="#myModall" />
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <input type="button" value="Online Appointments" class="btn" style="background-color: #6cf; color: white; width: 170px; height: 60px;border-radius:20%" data-toggle="modal" data-target="#myModal" />
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="height: 50px; background-color: #6cf; color: white;"></div>
+
+    <form class="form-horizontal" action="#">
+        <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+<!--<div class="modal-content">
+    <div class="modal-header" style="background-color: #6cf; color: white;">-->
+@*<button type="button" class="close" data-dismiss="modal">&times;</button>*@
+<!--<h4 class="modal-title">Online Appointments</h4>
+</div>
+<div class="modal-body">
+    <div class="container">-->
+@*<h2>Horizontal form with static control</h2>*@
+
+<!--<div id="successmsg" style="display:none;color:green">Your data has been added successfully.</div>
+<div class="form-group">
+    <label class="control-label col-sm-2">Patient Name:</label>
+    <div class="col-sm-3">
+        <input type="text" class="form-control" id="txt_patient" placeholder="Patient Name" name="patient" maxlength="50">
+    </div>
+</div>
+<div class="form-group">
+    <label class="control-label col-sm-2" for="pwd">Age:</label>
+    <div class="col-sm-3">
+        <input type="text" class="form-control" id="txt_age" placeholder="Age" name="age" maxlength="2">
+    </div>
+</div>
+<div class="form-group">
+    <label class="control-label col-sm-2" for="pwd">Gender:</label>
+    <div class="col-sm-3">
+        <select class="form-control" id="dd_gender">
+            <option value="Select">Select</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+        </select>-->
+@*<input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pwd">*@
+<!--</div>
+</div>
+
+<div class="form-group">
+    <label class="control-label col-sm-2" for="pwd">Mobile:</label>
+    <div class="col-sm-3">
+        <input type="text" class="form-control" id="txt_mobile" placeholder="Mobile" name="Mobile" maxlength="10">
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="control-label col-sm-2" for="pwd">Specialist:</label>
+    <div class="col-sm-3">
+        <select class="form-control" id="dr_specialist">
+            <option value="Select">Select</option>
+            <option value="General Practitioners">General Practitioners</option>
+            <option value="Cardiologists">Cardiologists</option>
+            <option value="Neurologists">Neurologists</option>
+            <option value="Dermatologists">Dermatologists</option>
+            <option value="Pediatricians">Pediatricians</option>
+            <option value="Orthopedic Surgeons">Orthopedic Surgeons</option>
+            <option value="Gynecologists">Gynecologists</option>
+            <option value="Ophthalmologists">Ophthalmologists</option>
+            <option value="Psychiatrists">Psychiatrists</option>
+            <option value="Oncologists">Oncologists</option>
+            <option value="Surgeons">Surgeons</option>
+            <option value="Endocrinologists">Endocrinologists</option>
+            <option value="Urologists">Urologists</option>
+            <option value="Anesthesiologists">Anesthesiologists</option>
+            <option value="Radiologists">Radiologists</option>
+            <option value="Rheumatologists">Rheumatologists</option>
+            <option value="ENT">ENT</option>
+            <option value="Gastroenterologists">Gastroenterologists</option>
+            <option value="Immunologists/Allergists">Immunologists/Allergists</option>
+            <option value="Plastic Surgeons">Plastic Surgeons</option>
+            <option value="Pathologists">Pathologists</option>
+            <option value="Infectious Disease Specialist">Infectious Disease Specialist</option>
+            <option value="Dentist">Dentist</option>
+        </select>-->
+@*<input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pwd">*@
+<!--</div>
+</div>
+
+<div class="form-group">
+    <label class="control-label col-sm-2" for="pwd">Appointment Date:</label>
+    <div class="col-sm-3">
+        <input type="date" class="form-control" placeholder="" id="txt_admitteddate" maxlength="50" autocomplete="off">
+    </div>
+</div>
+<div class="form-group">
+    <div class="col-sm-offset-2 col-sm-2">-->
+@*<input type="button" value="SUBMIT" class="btn" id="buttontxt" style="background-color: #278BCE;color:White;" onclick="onsavedoctortask()" />*@
+<!--<button type="submit" class="btn btn-default" onclick="return SaveOnline()">Submit</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <buttonret type="button" class="btn btn-default" data-dismiss="modal">Close</buttonret>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>
+
+<form class="form-horizontal" action="#">
+    <div id="myModall" class="modal fade" role="dialog">
+        <div class="modal-dialog">-->
+<!-- Modal content-->
+<!--<div class="modal-content">
+    <div class="modal-header" style="background-color: #6cf; color: white;">-->
+@*<button type="button" class="close" data-dismiss="modal">&times;</button>*@
+<!--<h4 class="modal-title">Contact Us</h4>
+</div>
+<div class="modal-body">
+    <div class="container">-->
+@*<h2>Horizontal form with static control</h2>*@
+
+<!--<div id="successmsg" style="display:none;color:green">Your data has been added successfully.</div>
+<div class="form-group">
+    <label class="control-label col-sm-2" for="pwd">Patient ID:</label>
+    <div class="col-sm-3">
+        <input type="text" class="form-control" id="contxt_ID" placeholder="Patient ID" name="Patient ID" maxlength="5">
+    </div>
+</div>
+<div class="form-group">
+
+    <label class="control-label col-sm-2">Patient Name:</label>
+    <div class="col-sm-3">
+        <input type="text" class="form-control" id="contxt_patient" placeholder="Patient Name" name="patient" maxlength="50">
+    </div>
+</div>
+
+
+<div class="form-group">
+    <label class="control-label col-sm-2" for="pwd">Gender:</label>
+    <div class="col-sm-3">
+        <select class="form-control" id="condd_gender">
+            <option value="Select">Select</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+        </select>-->
+@*<input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pwd">*@
+<!--</div>
+</div>
+
+<div class="form-group">
+    <label class="control-label col-sm-2" for="pwd">Mobile:</label>
+    <div class="col-sm-3">
+        <input type="text" class="form-control" id="contxt_mobile" placeholder="Mobile" name="Mobile" maxlength="10">
+    </div>
+</div>
+
+
+<div class="form-group">
+    <label class="control-label col-sm-2" for="pwd">Email:</label>
+    <div class="col-sm-3">
+        <input type="text" class="form-control" id="contxt_email" placeholder="Email" name="Email" maxlength="50">
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="control-label col-sm-2" for="pwd">Specialist:</label>
+    <div class="col-sm-3">
+        <select class="form-control" id="condr_specialist">
+            <option value="Select">Select</option>
+            <option value="General Practitioners">General Practitioners</option>
+            <option value="Cardiologists">Cardiologists</option>
+            <option value="Neurologists">Neurologists</option>
+            <option value="Dermatologists">Dermatologists</option>
+            <option value="Pediatricians">Pediatricians</option>
+            <option value="Orthopedic Surgeons">Orthopedic Surgeons</option>
+            <option value="Gynecologists">Gynecologists</option>
+            <option value="Ophthalmologists">Ophthalmologists</option>
+            <option value="Psychiatrists">Psychiatrists</option>
+            <option value="Oncologists">Oncologists</option>
+            <option value="Surgeons">Surgeons</option>
+            <option value="Endocrinologists">Endocrinologists</option>
+            <option value="Urologists">Urologists</option>
+            <option value="Anesthesiologists">Anesthesiologists</option>
+            <option value="Radiologists">Radiologists</option>
+            <option value="Rheumatologists">Rheumatologists</option>
+            <option value="ENT">ENT</option>
+            <option value="Gastroenterologists">Gastroenterologists</option>
+            <option value="Immunologists/Allergists">Immunologists/Allergists</option>
+            <option value="Plastic Surgeons">Plastic Surgeons</option>
+            <option value="Pathologists">Pathologists</option>
+            <option value="Infectious Disease Specialist">Infectious Disease Specialist</option>
+            <option value="Dentist">Dentist</option>
+        </select>-->
+@*<input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pwd">*@
+<!--</div>
+</div>
+
+<div class="form-group">
+    <label class="control-label col-sm-2" for="pwd">Disease Notes:</label>
+    <div class="col-sm-3">
+        <textarea class="form-control" placeholder="" id="contxt_Disease" maxlength="500" autocomplete="off"></textarea>
+    </div>
+</div>
+<div class="form-group">
+    <div class="col-sm-offset-2 col-sm-2">-->
+@*<input type="button" value="SUBMIT" class="btn" id="buttontxt" style="background-color: #278BCE;color:White;" onclick="onsavedoctortask()" />*@
+@*<button type="submit" class="btn btn-default" onclick="return SaveContact()">Submit</button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+    <div class="modal-footer">
+        <buttonret type="button" class="btn btn-default" data-dismiss="modal">Close</buttonret>
+    </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </body>
+    @{Html.RenderPartial("~/Views/Shared/_Popupnotification.cshtml");}
+    </html>-->*@

@@ -1,0 +1,176 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_CaseLayout.cshtml";
+}
+
+<html>
+<head>
+    <style>
+        .border-box {
+            position: relative;
+            border: 3px solid #6bbce7;
+            Padding: 20px;
+            height: 430px;
+        }
+
+        .top-panel {
+            background-color: #6bbce7; /* #82CAFA  #55AAFF */
+            padding: 10px;
+            text-align: center;
+            color: white;
+            font-size: 20px;
+        }
+    </style>
+    <script type="text/javascript">
+        var IDD = 1;
+        var IUD = 1;
+        $(document).ready(function () {
+            GridDischargePatient();
+        });
+
+        function GridDischargePatient() {
+
+            var url = '@Url.Action("DischargeBindd", "Discharge")';
+            debugger;
+            var data1 = {}
+            $.ajax({
+                'async': false,
+                'type': "POST",
+                'global': false,
+                'dataType': 'json',
+                'url': url,
+                'data': data1,
+                'success': function (data) {
+                    data = JSON.parse(data);
+                    var item = '';
+                    var Sno = 0;
+                    var singco = "'";
+                    if (data == "") {
+
+                        // $('#DrTaskID').val(data);
+                        item += '<tr><td colspan="7" style="text-align:center">No records found.</td></tr>';
+                    }
+                    for (var i = 0; i < data.Table.length; i++) {
+                        Sno = Sno + 1;
+
+                        item += '<tr><td title="' + data.Table[i].Row_Num + '">' + data.Table[i].Row_Num +
+                            '</td><td title="' + data.Table[i].Patient_RegId + '">' + data.Table[i].Patient_RegId +
+                            '</td><td title="' + data.Table[i].Pat_name + '">' + data.Table[i].Pat_name +
+                            '</td><td title="' + data.Table[i].Pat_blood + '">' + data.Table[i].Pat_blood +
+                            '</td><td title="' + data.Table[i].Pat_disease + '">' + data.Table[i].Pat_disease +
+                            '</td><td title="' + data.Table[i].Pat_doctor + '">' + data.Table[i].Pat_doctor +
+                            '</td><td title="' + data.Table[i].Pat_admitteddate + '">' + data.Table[i].Pat_admitteddate +
+                            '</td>'
+                        item += '<td class="awsemfontcolor">';
+                        item += '<input type="button" id="buttontxt" value="Discharge" style="background-color: #6bbce7; color: white;" onclick="SaveDischarge(' + data.Table[i].Patient_Id + ',' + data.Table[i].Patient_RegId + ')"></i>&nbsp;';
+                        //item += '<i class="fa fa-times-circle" style="font-size: 18px;color:#6bbce7;cursor:pointer;" title="Delete" onclick="GetDetailPatient(' + data.Table[i].Patient_Id + ',3)" ></i>&nbsp;';
+                    }
+                    item += '</tr>';
+
+
+
+                    $('#Bindgridpatient').html('').append(item);
+                }
+            });
+        }
+
+        function SaveDischarge(Patient_Id, Patient_RegId) {
+            
+            var url = '@Url.Action("DischargePatient", "Discharge")';
+            var data1 = {
+                "PPatientID": Patient_Id,
+                "RegID": Patient_RegId
+            }
+            $.ajax({
+                'type': "POST",
+                'global': false,
+                'dataType': 'json',
+                'url': url,
+                'data': data1,
+                'success': function (data) {
+                    data = JSON.parse(data);
+                    if (data.Table[0].Result == "S") {
+                        $('body,html').animate({ scrollTop: 0 }, 0);
+                        not1("Patient discharged successfully.");
+                        $('#AddForm').css('display', 'none');
+                        $('#gridpage').css('display', 'block');
+                        GridDischargePatient();
+                    }
+                    else if (data.Table[0].Result == "D") {
+                        not2("Please pay pending bills then discharge. ")
+                    }
+                    $('body,html').animate({ scrollTop: 0 }, 0);
+
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <div id="AddForm" style="display:none">
+        <div class="top-panel">
+            <span>Patient Details</span>
+        </div>
+        
+    </div>
+
+    <div id="gridpage">
+        <h3 id="oo1" style="text-align: center; color: #6bbce7; margin-top: 35px"><b>DISCHARGE MANAGEMENT</b></h3>
+        <div class="col-md-12" style="margin-top:20px">
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-3">
+            </div>
+            <div class="col-md-4">
+
+            </div>
+
+            <div class="col-md-1 col-md-offset-2" style="text-align:right">
+                <div onclick="return GetDetail(1,1)" title="Add" style="cursor: pointer; display: block;height: 34px" id="rowpullrightadd1">
+
+                    @*<i style="font-size: 25px; color: #6bbce7; padding-top: 8px " class="fa fa-plus-circle"></i>*@
+                </div>
+            </div>
+
+            <div class="col-md-3"></div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-12">
+                <div class="panel panel-primary filterable" style="border-color: #6bbce7;color: black" id="FocusTable">
+                    <div class="panel-heading" style="background: #6bbce7; border-color: #6bbce7; ">
+                        <h3 class="panel-title"><b>Discharge Details</b></h3>
+
+
+                    </div>
+                    <table class="table" id="ComtxtpractiestypeAtt">
+                        <thead>
+                            <tr class="filters">
+                                <th>#</th>
+                                <th class="table-sort">Patient ID</th>
+                                <th class="table-sort">Patient Name</th>
+                                <th class="table-sort">Blood Group</th>
+                                <th class="table-sort">Disease</th>
+                                <th class="table-sort">Handle Doctor</th>
+                                <th class="table-sort">Admitted Date</th>
+                                <th class="table-sort">Action</th>
+
+                            </tr>
+                        </thead>
+                        <tbody id="Bindgridpatient"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-3">
+            </div>
+        </div>
+    </div>
+    @*<div style="margin-left:70%;display:block">
+            <a style="cursor: pointer; color: #278BCE; font-weight: bold; font-size: 16px" onclick="location.href='@Url.Action("Index", "Login")'"><i class="fa fa-key"></i>Log Out</a>
+            <a style="cursor: pointer; color: #278BCE; font-weight: bold; font-size: 16px" onclick="location.href='@Url.Action("Index", "Home")'"><i class="fa fa-key"></i>Dashboard</a>
+        </div>*@
+</body>
+</html>
+
